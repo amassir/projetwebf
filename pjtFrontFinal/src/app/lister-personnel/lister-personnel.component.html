@@ -1,0 +1,26 @@
+<div class="container">
+  <h2>Liste des Personnels</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Date d'embauche</th>
+        <th>Activité</th>
+        <th>Statut</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let personnel of personnels | paginate: { itemsPerPage: 10, currentPage: page }">
+        <td>{{ personnel.idP }}</td>
+        <td>{{ personnel.nomP }}</td>
+        <td>{{ personnel.prenomP }}</td>
+        <td>{{ personnel.dateEmbaucheP | date }}</td>
+        <td>{{ personnel.activiteP }}</td>
+        <td>{{ personnel.statutP }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>

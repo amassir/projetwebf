@@ -1,0 +1,30 @@
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="card p-4" style="width: 100%; max-width: 500px; border-radius: 15px;">
+    <h2 class="text-center">Ajouter un Personnel</h2>
+    <form (ngSubmit)="addPersonnel()">
+      <div class="form-group">
+        <label for="prenomP">Prénom</label>
+        <input type="text" class="form-control" id="prenomP" [(ngModel)]="personnel.prenomP" name="prenomP" required>
+      </div>
+      <div class="form-group">
+        <label for="nomP">Nom</label>
+        <input type="text" class="form-control" id="nomP" [(ngModel)]="personnel.nomP" name="nomP" required>
+      </div>
+      <div class="form-group">
+        <label for="dateEmbaucheP">Date d'embauche</label>
+        <input type="date" class="form-control" id="dateEmbaucheP" [(ngModel)]="personnel.dateEmbaucheP" name="dateEmbaucheP" required>
+      </div>
+      <div class="form-group">
+        <label for="activiteP">Activité</label>
+        <input type="text" class="form-control" id="activiteP" [(ngModel)]="personnel.activiteP" name="activiteP" required>
+      </div>
+      <div class="form-group">
+        <label for="statutP">Statut</label>
+        <input type="text" class="form-control" id="statutP" [(ngModel)]="personnel.statutP" name="statutP" required>
+      </div>
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary mt-3">Ajouter</button>
+      </div>
+    </form>
+  </div>
+</div>
