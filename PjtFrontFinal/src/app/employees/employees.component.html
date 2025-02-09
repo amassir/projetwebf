@@ -1,0 +1,61 @@
+<div class="container mt-4">
+    <div class="card">
+        <h1>Enregistrement d'un employé</h1>
+
+        <form>
+            <div class="form-group">
+                <label>Prénom de l'employé</label>
+                <input type="text" [(ngModel)]="prenomP" [ngModelOptions]="{standalone: true}" class="form-control" id="prenomP" placeholder="Entrer le prénom">
+            </div>
+            <div class="form-group">
+                <label>Nom de l'employé</label>
+                <input type="text" [(ngModel)]="nomP" [ngModelOptions]="{standalone: true}" class="form-control" id="nomP" placeholder="Entrer le nom">
+            </div>
+            <div class="form-group">
+                <label>Date d'entrée en entreprise</label>
+                <input type="date" [(ngModel)]="dateEmbaucheP" [ngModelOptions]="{standalone: true}" class="form-control" id="dateEmbaucheP">
+            </div>
+            <div class="form-group">
+                <label>Activité</label>
+                <input type="text" [(ngModel)]="activiteP" [ngModelOptions]="{standalone: true}" class="form-control" id="activiteP" placeholder="Entrer l'activité">
+            </div>
+            <div class="form-group">
+                <label>Statut</label>
+                <input type="text" [(ngModel)]="statutP" [ngModelOptions]="{standalone: true}" class="form-control" id="statutP" placeholder="Entrer le statut">
+            </div>
+            <button type="button" class="btn btn-primary mt-4" (click)="save()">Enregistrer</button>
+        </form>
+    </div>
+
+    <div class="container mt-4">
+        <h1>Table des Employés</h1>
+        <table class="table">
+            <thead>
+                <h1 *ngIf="!isResultloaded">Chargement...</h1>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Date d'entrée</th>
+                    <th scope="col">Activité</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let EmployeeItem of EmployeeArray">
+                    <td>{{ EmployeeItem.id }}</td>
+                    <td>{{ EmployeeItem.prenomP }}</td>
+                    <td>{{ EmployeeItem.nomP }}</td>
+                    <td>{{ EmployeeItem.dateEmbaucheP }}</td>
+                    <td>{{ EmployeeItem.activiteP }}</td>
+                    <td>{{ EmployeeItem.statutP }}</td>
+                    <td>
+                        <button type="button" class="btn btn-success" (click)="setUpdate(EmployeeItem)">Modifier</button>
+                        <button type="button" class="btn btn-danger" (click)="setDelete(EmployeeItem)">Supprimer</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
