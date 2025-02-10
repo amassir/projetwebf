@@ -19,6 +19,8 @@ export class EmployeesComponent {
   statutP: string = "";
   idEmploye: string = "";
 
+  private apiUrl = "http://localhost:3000/api/personnel";
+
   constructor(private http: HttpClient) {
     this.getAllEmployees();
   }
@@ -27,11 +29,17 @@ export class EmployeesComponent {
   }
 
   getAllEmployees() {
-    this.http.get("")
-      .subscribe((resultData: any) => {
-        this.isResultloaded = true;
-        console.log(resultData);
-        this.EmployeeArray = resultData;
+    this.http.get(this.apiUrl)
+      .subscribe({
+        next: (resultData: any) => {
+          this.isResultloaded = true;
+          console.log(resultData);
+          this.EmployeeArray = resultData;
+        },
+        error: (err) => {
+          console.error("Error fetching employees:", err);
+          alert("Failed to fetch employees. Please try again.");
+        }
       });
   }
 
@@ -44,11 +52,17 @@ export class EmployeesComponent {
       "statutP": this.statutP,
     };
 
-    this.http.post("https://jsonplaceholder.typicode.com/users", bodyData)
-      .subscribe((resultData: any) => {
-        console.log(resultData);
-        alert("Employee Registered Successfully (Simulated)");
-        this.getAllEmployees();
+    this.http.post(this.apiUrl, bodyData)
+      .subscribe({
+        next: (resultData: any) => {
+          console.log(resultData);
+          alert("Employee Registered Successfully");
+          this.getAllEmployees();
+        },
+        error: (err) => {
+          console.error("Error registering employee:", err);
+          alert("Failed to register employee. Please try again.");
+        }
       });
   }
 
@@ -57,8 +71,8 @@ export class EmployeesComponent {
     this.nomP = data.nomP;
     this.dateEmbaucheP = data.dateEmbaucheP;
     this.activiteP = data.activiteP;
-    this.statutP = data.statutP
-    this.idEmploye = data.id;
+    this.statutP = data.statutP;
+    this.idEmploye = data.idP;
     this.isUpdateFormActive = true;
   }
 
@@ -71,11 +85,17 @@ export class EmployeesComponent {
       "statutP": this.statutP
     };
 
-    this.http.put("" + this.idEmploye, bodyData)
-      .subscribe((resultData: any) => {
-        console.log(resultData);
-        alert("Employee Updated Successfully (Simulated)");
-        this.getAllEmployees();
+    this.http.put(`${this.apiUrl}/${this.idEmploye}`, bodyData)
+      .subscribe({
+        next: (resultData: any) => {
+          console.log(resultData);
+          alert("Employee Updated Successfully");
+          this.getAllEmployees();
+        },
+        error: (err) => {
+          console.error("Error updating employee:", err);
+          alert("Failed to update employee. Please try again.");
+        }
       });
   }
 
@@ -88,11 +108,25 @@ export class EmployeesComponent {
   }
 
   setDelete(data: any) {
-    this.http.delete("" + data.id)
-      .subscribe((resultData: any) => {
-        console.log(resultData);
-        alert("Employee Deleted Successfully (Simulated)");
-        this.getAllEmployees();
+    if (!data.idP) {
+      console.error("Invalid employee ID");
+      alert("Invalid employee ID");
+      return;
+    }
+
+    this.http.delete(`${this.apiUrl}/${data.idP}`)
+      .subscribe({
+        next: (resultData: any) => {
+          console.log(resultData);
+          alert("Employee Deleted Successfully");
+
+          // Supprime l'employé de la liste locale sans recharger toute la liste
+          this.EmployeeArray = this.EmployeeArray.filter(emp => emp.idP !== data.idP);
+        },
+        error: (err) => {
+          console.error("Error deleting employee:", err);
+          alert("Failed to delete employee. Please try again.");
+        }
       });
   }
 }
