@@ -14,10 +14,13 @@ export const getPersonnel = async (req: Request, res: Response) => {
 // Ajout d'un nouveau personnel
 export const addPersonnel = async (req: Request, res: Response) => {
     try {
-        const { prenomP, nomP, dateEmbaucheP, activiteP, statutP } = req.body;
+        const { nomP, prenomP, dateEmbaucheP } = req.body;
+        const activiteP = "Aucune";
+        const statutP = "Inactif";
+
         const newPersonnel = await Personnel.create({
-            prenomP,
             nomP,
+            prenomP,
             dateEmbaucheP,
             activiteP,
             statutP
@@ -25,6 +28,40 @@ export const addPersonnel = async (req: Request, res: Response) => {
         res.status(201).json(newPersonnel);
     } catch (error) {
         res.status(500).json({ error: "Erreur lors de l'ajout d'un personnel" });
+    }
+};
+
+// Récupération d'un personnel par son identifiant
+export const getPersonnelById = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const personnel = await Personnel.findByPk(id);
+        if (personnel) {
+            res.status(200).json(personnel);
+        } else {
+            res.status(404).json({ error: 'Personnel non trouvé' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Erreur lors de la récupération du personnel" });
+    }
+};
+
+// Mise à jour du statut d'un personnel
+export const updatePersonnelStatus = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { statutP } = req.body;
+
+        const personnel = await Personnel.findByPk(id);
+        if (personnel) {
+            personnel.statutP = statutP;
+            await personnel.save();
+            res.status(200).json(personnel);
+        } else {
+            res.status(404).json({ error: 'Personnel non trouvé' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Erreur lors de la mise à jour du statut d'un personnel" });
     }
 };
 
