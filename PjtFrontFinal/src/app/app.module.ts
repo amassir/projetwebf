@@ -7,18 +7,17 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { NavComponent } from './nav/nav.component';
-import { EmployeesComponent } from './employees/employees.component';
-import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
-
+import { PersonnelComponent } from './personnel/personnel.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     NavComponent,
-    EmployeesComponent,
-    HomeComponent
+    HomeComponent,
+    PersonnelComponent
   ],
   imports: [
     BrowserModule,

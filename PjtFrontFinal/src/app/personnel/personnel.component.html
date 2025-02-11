@@ -1,14 +1,14 @@
 <div class="container mt-4">
     <div class="card">
-      <h1>Enregistrement d'un employé</h1>
+      <h1>Enregistrement d'un personnel</h1>
   
       <form>
         <div class="form-group">
-          <label>Prénom de l'employé</label>
+          <label>Prénom du personnel</label>
           <input type="text" [(ngModel)]="prenomP" [ngModelOptions]="{standalone: true}" class="form-control" id="prenomP" placeholder="Entrer le prénom">
         </div>
         <div class="form-group">
-          <label>Nom de l'employé</label>
+          <label>Nom du personnel</label>
           <input type="text" [(ngModel)]="nomP" [ngModelOptions]="{standalone: true}" class="form-control" id="nomP" placeholder="Entrer le nom">
         </div>
         <div class="form-group">
@@ -28,7 +28,7 @@
     </div>
   
     <div class="container mt-4">
-      <h1>Table des Employés</h1>
+      <h1>Table du Personnel</h1>
       <table class="table">
         <thead>
           <h1 *ngIf="!isResultloaded">Chargement...</h1>
@@ -43,19 +43,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let EmployeeItem of EmployeeArray">
-            <td>{{ EmployeeItem.idP }}</td>
-            <td>{{ EmployeeItem.prenomP }}</td>
-            <td>{{ EmployeeItem.nomP }}</td>
-            <td>{{ EmployeeItem.dateEmbaucheP }}</td>
-            <td>{{ EmployeeItem.activiteP }}</td>
-            <td>{{ EmployeeItem.statutP }}</td>
+          <tr *ngFor="let PersonnelItem of PersonnelArray">
+            <td>{{ PersonnelItem.idP }}</td>
+            <td>{{ PersonnelItem.prenomP }}</td>
+            <td>{{ PersonnelItem.nomP }}</td>
+            <td>{{ PersonnelItem.dateEmbaucheP }}</td>
+            <td>{{ PersonnelItem.activiteP }}</td>
+            <td>{{ PersonnelItem.statutP }}</td>
             <td>
-              <button type="button" class="btn btn-success" (click)="setUpdate(EmployeeItem)">Modifier</button>
-              <button type="button" class="btn btn-danger" (click)="setDelete(EmployeeItem)">Supprimer</button>
+              <button type="button" class="btn btn-success" (click)="setUpdate(PersonnelItem)">Modifier</button>
+              <button type="button" class="btn btn-danger" (click)="setDelete(PersonnelItem)">Supprimer</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+
