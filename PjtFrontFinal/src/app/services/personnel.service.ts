@@ -6,15 +6,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PersonnelService {
-  private readonly apiUrl = "http://localhost:3000/api/personnel";
+  private apiUrl = "http://localhost:3000/api/personnel";
 
   constructor(private http: HttpClient) {}
 
-  getAllPersonnel(): Observable<any[]> {
+  getPersonnel(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  registerPersonnel(personnel: any): Observable<any> {
+  addPersonnel(personnel: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, personnel);
   }
 

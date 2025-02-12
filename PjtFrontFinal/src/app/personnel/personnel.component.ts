@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonnelService } from '../services/personnel.service';
-
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
+import { CompetencesModalComponent } from '../competences-modal/competences-modal.component';
 
 @Component({
   selector: 'app-personnel',
@@ -12,6 +13,7 @@ export class PersonnelComponent implements OnInit {
   PersonnelArray: any[] = [];
   isResultloaded = false;
   isUpdateFormActive = false;
+  bsModalRef?: BsModalRef;
 
   prenomP = "";
   nomP = "";
@@ -20,14 +22,14 @@ export class PersonnelComponent implements OnInit {
   statutP = "";
   idPersonnel = "";
 
-  constructor(private personnelService: PersonnelService) {}
+  constructor(private personnelService: PersonnelService, private modalService: BsModalService) {}
 
   ngOnInit(): void {
-    this.getAllPersonnel();
+    this.getPersonnel();
   }
 
-  getAllPersonnel() {
-    this.personnelService.getAllPersonnel().subscribe({
+  getPersonnel() {
+    this.personnelService.getPersonnel().subscribe({
       next: (resultData) => {
         this.isResultloaded = true;
         console.log(resultData);
@@ -53,7 +55,7 @@ export class PersonnelComponent implements OnInit {
       this.personnelService.updatePersonnel(this.idPersonnel, personnelData).subscribe({
         next: () => {
           alert("Personnel Updated Successfully");
-          this.getAllPersonnel();
+          this.getPersonnel();
         },
         error: (err) => {
           console.error("Error updating personnel:", err);
@@ -61,10 +63,10 @@ export class PersonnelComponent implements OnInit {
         }
       });
     } else {
-      this.personnelService.registerPersonnel(personnelData).subscribe({
+      this.personnelService.addPersonnel(personnelData).subscribe({
         next: () => {
           alert("Personnel Registered Successfully");
-          this.getAllPersonnel();
+          this.getPersonnel();
         },
         error: (err) => {
           console.error("Error registering personnel:", err);
@@ -100,5 +102,15 @@ export class PersonnelComponent implements OnInit {
         alert("Failed to delete personnel. Please try again.");
       }
     });
+  }
+
+  openCompetencesModal(personnel: any) {
+    const modalOptions: ModalOptions = {
+      class: "modal-lg",
+      initialState: {
+        personnel: personnel
+      }
+    };
+    this.bsModalRef = this.modalService.show(CompetencesModalComponent, modalOptions);
   }
 }

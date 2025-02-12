@@ -39,7 +39,6 @@ Missions.init({
         },
         anomalieM: {
             type: DataTypes.STRING,
-            allowNull: false,
         },},
     {
         sequelize,

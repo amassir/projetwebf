@@ -1,0 +1,21 @@
+<p>missions works!</p>
+<table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Date de début</th>
+        <th>Date de fin</th>
+        <th>Statut</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let mission of missions">
+        <td>{{ mission.nomM }}</td>
+        <td>{{ mission.descriptionM }}</td>
+        <td>{{ mission.dateDebutM | date }}</td>
+        <td>{{ mission.dateFinM | date }}</td>
+        <td>{{ mission.statutM }}</td>
+      </tr>
+    </tbody>
+  </table>

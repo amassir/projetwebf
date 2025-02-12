@@ -1,0 +1,29 @@
+<p>missions-form works!</p>
+<h1>Créer une mission</h1>
+<form [formGroup]="missionForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="nomM">Nom de la mission</label>
+    <input id="nomM" formControlName="nomM" />
+  </div>
+  <div>
+    <label for="descriptionM">Description</label>
+    <textarea id="descriptionM" formControlName="descriptionM"></textarea>
+  </div>
+  <div>
+    <label for="dateDebutM">Date de début</label>
+    <input id="dateDebutM" type="date" formControlName="dateDebutM" />
+  </div>
+  <div>
+    <label for="dateFinM">Date de fin</label>
+    <input id="dateFinM" type="date" formControlName="dateFinM" />
+  </div>
+  <div>
+    <label>Compétences requises</label>
+    <div class="competences-grid">
+      <div class="competence-item" *ngFor="let competence of competences; let i = index">
+        <input type="checkbox" [formControlName]="i" /> {{ competence.nomCfr }}
+      </div>
+    </div>
+  </div>
+  <button type="submit">Créer la mission</button>
+</form>

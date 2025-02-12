@@ -51,9 +51,12 @@
             <td>{{ PersonnelItem.activiteP }}</td>
             <td>{{ PersonnelItem.statutP }}</td>
             <td>
-              <button type="button" class="btn btn-success" (click)="setUpdate(PersonnelItem)">Modifier</button>
-              <button type="button" class="btn btn-danger" (click)="setDelete(PersonnelItem)">Supprimer</button>
-            </td>
+              <div class="d-flex" style="width: 100%;">
+                <button type="button" class="btn btn-success me-2" (click)="setUpdate(PersonnelItem)">Modifier</button>
+                <button type="button" class="btn btn-danger" (click)="setDelete(PersonnelItem)">Supprimer</button>
+              </div>
+              <button type="button" class="btn btn-info mt-1" style="width: calc(50% + 0.5rem);" (click)="openCompetencesModal(PersonnelItem)">Compétences</button>
+            </td> 
           </tr>
         </tbody>
       </table>
