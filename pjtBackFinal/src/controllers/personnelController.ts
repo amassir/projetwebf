@@ -14,9 +14,7 @@ export const getPersonnel = async (req: Request, res: Response) => {
 // Ajout d'un nouveau personnel
 export const addPersonnel = async (req: Request, res: Response) => {
     try {
-        const { nomP, prenomP, dateEmbaucheP } = req.body;
-        const activiteP = "Aucune";
-        const statutP = "Inactif";
+        const { nomP, prenomP, dateEmbaucheP, activiteP, statutP } = req.body;
 
         const newPersonnel = await Personnel.create({
             nomP,
@@ -47,23 +45,32 @@ export const getPersonnelById = async (req: Request, res: Response) => {
 };
 
 // Mise à jour du statut d'un personnel
-export const updatePersonnelStatus = async (req: Request, res: Response) => {
+export const updatePersonnel = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { statutP } = req.body;
+        console.log("Requête reçue :", req.body);
+
+        const { prenomP, nomP, dateEmbaucheP, activiteP, statutP } = req.body;
 
         const personnel = await Personnel.findByPk(id);
         if (personnel) {
-            personnel.statutP = statutP;
+            if (prenomP) personnel.prenomP = prenomP;
+            if (nomP) personnel.nomP = nomP;
+            if (dateEmbaucheP) personnel.dateEmbaucheP = new Date(dateEmbaucheP); 
+            if (activiteP) personnel.activiteP = activiteP;
+            if (statutP) personnel.statutP = statutP;
+
             await personnel.save();
             res.status(200).json(personnel);
         } else {
-            res.status(404).json({ error: 'Personnel non trouvé' });
+            res.status(404).json({ error: "Personnel non trouvé" });
         }
     } catch (error) {
-        res.status(500).json({ error: "Erreur lors de la mise à jour du statut d'un personnel" });
+        console.error("Erreur SQL :", error);
+        res.status(500).json({ error: "Erreur lors de la mise à jour du personnel" });
     }
 };
+
 
 // Suppression d'un personnel avec son identifiant
 export const deletePersonnel = async (req: Request, res: Response) => {

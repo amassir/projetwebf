@@ -7,6 +7,7 @@ export class Disposer extends Model {
     public idP!: number;
     public idC!: number;
     public aptitude!: 'novice' | 'confirmé';
+    Competence: any;
 }
 
 Disposer.init({
@@ -34,8 +35,8 @@ Disposer.init({
         },},
     {
         sequelize,
-        modelName: 'Competences',
-        tableName: 'Competences',
+        modelName: 'Disposer',
+        tableName: 'Disposer',
         timestamps: false,
     }
 );

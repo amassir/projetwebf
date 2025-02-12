@@ -1,18 +1,25 @@
 <div class="modal-header">
-    <h2>Compétences de {{ personnel?.prenomP }} {{ personnel?.nomP }}</h2>
-    <button class="btn-close" (click)="bsModalRef.hide()"></button>
+  <h2>Compétences de {{ personnel.prenomP }} {{ personnel.nomP }}</h2>
+  <button class="btn-close" (click)="bsModalRef.hide()" aria-label="Fermer"></button>
+</div>
+
+<div class="modal-body">
+  <!-- Message de chargement -->
+  <div *ngIf="isLoading" class="text-center">
+    <p>Chargement des compétences...</p>
   </div>
-  
-  <div class="modal-body">
-    <div *ngIf="isLoading">Chargement des compétences...</div>
-  
-    <ul *ngIf="!isLoading && competences.length > 0; else noCompetences" class="list-group">
+
+  <!-- Liste des compétences -->
+  <ng-container *ngIf="!isLoading">
+    <ul *ngIf="competences.length > 0; else noCompetences" class="list-group">
       <li *ngFor="let competence of competences" class="list-group-item">
         {{ competence.nomCfr }} - <strong>{{ competence.aptitude }}</strong>
       </li>
     </ul>
-  
-    <ng-template #noCompetences>
-      <p class="text-muted">Aucune compétence disponible.</p>
-    </ng-template>
-  </div>
+  </ng-container>
+
+  <!-- Message si aucune compétence disponible -->
+  <ng-template #noCompetences>
+    <p class="text-muted text-center">Aucune compétence disponible.</p>
+  </ng-template>
+</div>

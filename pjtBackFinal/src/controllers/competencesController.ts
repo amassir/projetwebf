@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Competences from '../models/competences';
+import { Disposer } from "../models/disposer";
 
 // Récupération de toutes les compétences
 export const getCompetences = async (req: Request, res: Response) => {
@@ -10,6 +11,29 @@ export const getCompetences = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Erreur lors de la récupération des données des compétences" });
     }
 };
+
+export const getCompetencesByPersonnel = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const disposerRecords = await Disposer.findAll({
+            where: { idP: id },
+            include: [{ model: Competences }],
+        });
+
+        const competences = disposerRecords.map(record => ({
+            idC: record.Competence.idC,
+            nomCfr: record.Competence.nomCfr,
+            nomCen: record.Competence.nomCen,
+            aptitude: record.aptitude
+        }));
+
+        res.status(200).json(competences);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des compétences :", error);
+        res.status(500).json({ error: "Erreur lors de la récupération des données des compétences" });
+    }
+};
+
 
 // Ajout d'une nouvelle compétence
 export const addCompetence = async (req: Request, res: Response) => {
@@ -39,4 +63,7 @@ export const deleteCompetence = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({ error: "Erreur lors de la suppression d'une compétence" });
     }
+
+
+
 };
