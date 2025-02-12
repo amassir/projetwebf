@@ -13,6 +13,7 @@ import { CompetencesModalComponent } from './competences-modal/competences-modal
 import { MissionsComponent } from './missions/missions.component';
 import { MissionsFormComponent } from './missions-form/missions-form.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { PersonnelRecommendationComponent } from './personnel-recommendation/personnel-recommendation.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HomeComponent,
     PersonnelComponent,
     CompetencesModalComponent,
+    PersonnelRecommendationComponent,
   ],
   imports: [
     BrowserModule,
