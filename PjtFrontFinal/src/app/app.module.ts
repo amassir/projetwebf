@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,11 +10,11 @@ import { HomeComponent } from './home/home.component';
 import { PersonnelComponent } from './personnel/personnel.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CompetencesModalComponent } from './competences-modal/competences-modal.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { CommonModule } from '@angular/common'; 
 import { MissionsComponent } from './missions/missions.component';
 import { MissionsFormComponent } from './missions-form/missions-form.component';
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { PersonnelRecommendationComponent } from './personnel-recommendation/personnel-recommendation.component';
-
+import { PersonnelRecommendationComponent} from './personnel-recommendation/personnel-recommendation.component';    
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +23,9 @@ import { PersonnelRecommendationComponent } from './personnel-recommendation/per
     HomeComponent,
     PersonnelComponent,
     CompetencesModalComponent,
-    PersonnelRecommendationComponent,
+    MissionsComponent, 
+    MissionsFormComponent,
+    PersonnelRecommendationComponent 
   ],
   imports: [
     BrowserModule,
@@ -31,9 +33,8 @@ import { PersonnelRecommendationComponent } from './personnel-recommendation/per
     BrowserAnimationsModule,
     ModalModule.forRoot(),
     FormsModule,
-    MissionsComponent,
-    MissionsFormComponent,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule 
   ],
   providers: [
     provideClientHydration(withEventReplay())

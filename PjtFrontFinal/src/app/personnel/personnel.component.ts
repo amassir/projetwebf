@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PersonnelService } from '../services/personnel.service';
+import { PersonnelService, Personnel } from '../services/personnel.service';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { CompetencesModalComponent } from '../competences-modal/competences-modal.component';
 

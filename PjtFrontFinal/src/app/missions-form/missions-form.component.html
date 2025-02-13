@@ -1,29 +1,28 @@
-<p>missions-form works!</p>
-<h1>Créer une mission</h1>
-<form [formGroup]="missionForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="nomM">Nom de la mission</label>
-    <input id="nomM" formControlName="nomM" />
+<div class="container mt-4">
+  <div class="card">
+      <h1>Enregistrement d'une mission</h1>
+      <form>
+          <div class="form-group">
+              <label>Nom de la mission</label>
+              <input type="text" [(ngModel)]="nomM" [ngModelOptions]="{standalone: true}" class="form-control" id="nomM" placeholder="Entrer le nom">
+          </div>
+          <div class="form-group">
+              <label>Description de la mission</label>
+              <input type="text" [(ngModel)]="descriptionM" [ngModelOptions]="{standalone: true}" class="form-control" id="descriptionM" placeholder="Entrer la description">
+          </div>
+          <div class="form-group">
+              <label>Date de début</label>
+              <input type="date" [(ngModel)]="dateDebutM" [ngModelOptions]="{standalone: true}" class="form-control" id="dateDebutM">
+          </div>
+          <div class="form-group">
+              <label>Date de fin</label>
+              <input type="date" [(ngModel)]="dateFinM" [ngModelOptions]="{standalone: true}" class="form-control" id="dateFinM">
+          </div>
+          <div class="form-group">
+              <label>Anomalie</label>
+              <input type="text" [(ngModel)]="anomalieM" [ngModelOptions]="{standalone: true}" class="form-control" id="anomalieM" placeholder="Entrer l'anomalie (optionnel)">
+          </div>
+          <button type="button" class="btn btn-primary mt-4" (click)="save()">Enregistrer</button>
+      </form>
   </div>
-  <div>
-    <label for="descriptionM">Description</label>
-    <textarea id="descriptionM" formControlName="descriptionM"></textarea>
-  </div>
-  <div>
-    <label for="dateDebutM">Date de début</label>
-    <input id="dateDebutM" type="date" formControlName="dateDebutM" />
-  </div>
-  <div>
-    <label for="dateFinM">Date de fin</label>
-    <input id="dateFinM" type="date" formControlName="dateFinM" />
-  </div>
-  <div>
-    <label>Compétences requises</label>
-    <div class="competences-grid">
-      <div class="competence-item" *ngFor="let competence of competences; let i = index">
-        <input type="checkbox" [formControlName]="i" /> {{ competence.nomCfr }}
-      </div>
-    </div>
-  </div>
-  <button type="submit">Créer la mission</button>
-</form>
+</div>

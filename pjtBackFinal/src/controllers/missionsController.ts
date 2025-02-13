@@ -14,7 +14,8 @@ export const getMissions = async (req: Request, res: Response) => {
 // Ajout d'une nouvelle mission
 export const addMission = async (req: Request, res: Response) => {
     try {
-        const { nomM, descriptionM, dateDebutM, dateFinM, statutM, anomalieM } = req.body;
+        const { nomM, descriptionM, dateDebutM, dateFinM,anomalieM } = req.body;
+        const statutM = "en préparation";
         const newMission = await Missions.create({
             nomM,
             descriptionM,

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { CompetencesService } from '../services/competences.service';
-import { Personnel } from '../models/personnel.model'; // Assure-toi que le chemin est correct
+import { Personnel } from '../services/personnel.service'; 
 
 @Component({
   selector: 'app-competences-modal',
@@ -11,7 +11,7 @@ import { Personnel } from '../models/personnel.model'; // Assure-toi que le chem
 })
 
 export class CompetencesModalComponent implements OnInit {
-  @Input() personnel!: Personnel; // Type explicite pour éviter l'erreur
+  @Input() personnel!: Personnel; 
   competences: any[] = [];
   isLoading = true;
 

@@ -1,21 +1,32 @@
-<p>missions works!</p>
-<table>
-    <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Description</th>
-        <th>Date de début</th>
-        <th>Date de fin</th>
-        <th>Statut</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let mission of missions">
-        <td>{{ mission.nomM }}</td>
-        <td>{{ mission.descriptionM }}</td>
-        <td>{{ mission.dateDebutM | date }}</td>
-        <td>{{ mission.dateFinM | date }}</td>
-        <td>{{ mission.statutM }}</td>
-      </tr>
-    </tbody>
+<div class="container mt-4">
+  <h1>Table des Missions</h1>
+  <table class="table">
+      <thead>
+          <h1 *ngIf="!isResultloaded">Chargement...</h1>
+          <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nom</th>
+              <th scope="col">Description</th>
+              <th scope="col">Date de début</th>
+              <th scope="col">Date de fin</th>
+              <th scope="col">Statut</th>
+              <th scope="col">Anomalie</th>
+              <th scope="col">Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let mission of MissionsArray">
+              <td>{{ mission.idM }}</td>
+              <td>{{ mission.nomM }}</td>
+              <td>{{ mission.descriptionM }}</td>
+              <td>{{ mission.dateDebutM }}</td>
+              <td>{{ mission.dateFinM }}</td>
+              <td>{{ mission.statutM }}</td>
+              <td>{{ mission.anomalieM }}</td>
+              <td>
+                  <button type="button" class="btn btn-danger" (click)="setDelete(mission)">Supprimer</button>
+              </td>
+          </tr>
+      </tbody>
   </table>
+</div>

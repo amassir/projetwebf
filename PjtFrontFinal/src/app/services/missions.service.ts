@@ -25,8 +25,8 @@ export class MissionsService {
     return this.http.get<any>(this.apiUrl);
   }
 
-  addMission(competence: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, competence);
+  addMission(mission: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, mission);
   }
 
   deleteMission(id: number): Observable<any> {
