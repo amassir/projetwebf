@@ -1,5 +1,6 @@
 <div class="modal-header">
-  <h2>Compétences de {{ personnel.prenomP }} {{ personnel.nomP }}</h2>
+  <h2 *ngIf="personnel">Compétences de {{ personnel.prenomP }} {{ personnel.nomP }}</h2>
+  <h2 *ngIf="mission">Compétences liées à la mission : {{ mission.nomM }}</h2>
   <button class="btn-close" (click)="bsModalRef.hide()" aria-label="Fermer"></button>
 </div>
 
@@ -13,7 +14,9 @@
   <ng-container *ngIf="!isLoading">
     <ul *ngIf="competences.length > 0; else noCompetences" class="list-group">
       <li *ngFor="let competence of competences" class="list-group-item">
-        {{ competence.nomCfr }} - <strong>{{ competence.aptitude }}</strong>
+        {{ competence.nomCfr }} - 
+        <strong *ngIf="personnel">{{ competence.aptitude }}</strong>
+        <strong *ngIf="mission">{{ competence.statutC }}</strong>
       </li>
     </ul>
   </ng-container>

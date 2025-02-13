@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Competences from '../models/competences';
 import { Disposer } from "../models/disposer";
+import Caracteriser from '../models/caracteriser';
 
 // Récupération de toutes les compétences
 export const getCompetences = async (req: Request, res: Response) => {
@@ -33,6 +34,29 @@ export const getCompetencesByPersonnel = async (req: Request, res: Response) => 
         res.status(500).json({ error: "Erreur lors de la récupération des données des compétences" });
     }
 };
+
+export const getCompetencesByMission = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const executerRecords = await Caracteriser.findAll({
+            where: { idM: id },
+            include: [{ model: Competences }],
+        });
+
+        const competences = executerRecords.map(record => ({
+            idC: record.Competence.idC,
+            nomCfr: record.Competence.nomCfr,
+            nomCen: record.Competence.nomCen,
+            statutC: record.statutC
+        }));
+
+        res.status(200).json(competences);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des compétences :", error);
+        res.status(500).json({ error: "Erreur lors de la récupération des données des compétences" });
+    }
+};
+
 
 
 // Ajout d'une nouvelle compétence

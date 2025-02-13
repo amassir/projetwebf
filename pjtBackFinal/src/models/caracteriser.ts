@@ -8,6 +8,7 @@ export class Caracteriser extends Model {
     public idM!: number;
     public idC!: number;
     public statutC!: 'non satisfait' | 'satisfait';
+    Competence: any;
 }
 
 Caracteriser.init({

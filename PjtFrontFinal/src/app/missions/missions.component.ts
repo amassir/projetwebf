@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MissionsService, Missions } from '../services/missions.service';
+import { MissionsService } from '../services/missions.service';
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
+import { CompetencesModalComponent } from '../competences-modal/competences-modal.component';
 
 @Component({
   selector: 'app-missions',
@@ -11,6 +13,7 @@ export class MissionsComponent implements OnInit {
   missionsArray: any[] = [];
   isResultloaded = false;
   isUpdateFormActive = false;
+  bsModalRef?: BsModalRef;
 
   nomM = "";
   descriptionM = "";
@@ -18,7 +21,7 @@ export class MissionsComponent implements OnInit {
   dateFinM = "";
   anomalieM = "";
 
-  constructor(private missionsService: MissionsService) {}
+  constructor(private missionsService: MissionsService, private modalService: BsModalService) {}
 
   ngOnInit(): void {
     this.getMissions();
@@ -75,5 +78,15 @@ export class MissionsComponent implements OnInit {
         alert("Failed to delete mission. Please try again.");
       }
     });
+  }
+
+  openCompetencesModal(mission: any) {
+    const modalOptions: ModalOptions = {
+      class: "modal-lg",
+      initialState: {
+        mission: mission
+      }
+    };
+    this.bsModalRef = this.modalService.show(CompetencesModalComponent, modalOptions);
   }
 }
