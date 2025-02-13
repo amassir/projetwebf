@@ -13,7 +13,6 @@ import { CompetencesModalComponent } from './competences-modal/competences-modal
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CommonModule } from '@angular/common'; 
 import { MissionsComponent } from './missions/missions.component';
-import { MissionsFormComponent } from './missions-form/missions-form.component';
 import { PersonnelRecommendationComponent} from './personnel-recommendation/personnel-recommendation.component';    
 @NgModule({
   declarations: [
@@ -24,7 +23,6 @@ import { PersonnelRecommendationComponent} from './personnel-recommendation/pers
     PersonnelComponent,
     CompetencesModalComponent,
     MissionsComponent, 
-    MissionsFormComponent,
     PersonnelRecommendationComponent 
   ],
   imports: [

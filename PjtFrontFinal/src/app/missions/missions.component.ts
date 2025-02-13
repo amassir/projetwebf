@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MissionsService } from '../services/missions.service';
+import { MissionsService, Missions } from '../services/missions.service';
 
 @Component({
   selector: 'app-missions',
@@ -8,8 +8,15 @@ import { MissionsService } from '../services/missions.service';
   styleUrls: ['./missions.component.css']
 })
 export class MissionsComponent implements OnInit {
-  MissionsArray: any[] = [];
+  missionsArray: any[] = [];
   isResultloaded = false;
+  isUpdateFormActive = false;
+
+  nomM = "";
+  descriptionM = "";
+  dateDebutM = "";
+  dateFinM = "";
+  anomalieM = "";
 
   constructor(private missionsService: MissionsService) {}
 
@@ -21,12 +28,33 @@ export class MissionsComponent implements OnInit {
     this.missionsService.getMissions().subscribe({
       next: (resultData) => {
         this.isResultloaded = true;
-        console.log(resultData);
-        this.MissionsArray = resultData;
+        this.missionsArray = resultData;
       },
       error: (err) => {
         console.error("Error fetching missions:", err);
         alert("Failed to fetch missions. Please try again.");
+      }
+    });
+  }
+
+  save() {
+    const missionData = {
+      nomM: this.nomM,
+      descriptionM: this.descriptionM,
+      dateDebutM: this.dateDebutM,
+      dateFinM: this.dateFinM,
+      statutM: 'en préparation',
+      anomalieM: this.anomalieM
+    };
+
+    this.missionsService.addMission(missionData).subscribe({
+      next: () => {
+        alert("Mission Registered Successfully");
+        this.getMissions();
+      },
+      error: (err) => {
+        console.error("Error registering mission:", err);
+        alert("Failed to register mission. Please try again.");
       }
     });
   }
@@ -40,7 +68,7 @@ export class MissionsComponent implements OnInit {
     this.missionsService.deleteMission(mission.idM).subscribe({
       next: () => {
         alert("Mission Deleted Successfully");
-        this.MissionsArray = this.MissionsArray.filter(m => m.idM !== mission.idM);
+        this.missionsArray = this.missionsArray.filter(m => m.idM !== mission.idM);
       },
       error: (err) => {
         console.error("Error deleting mission:", err);
