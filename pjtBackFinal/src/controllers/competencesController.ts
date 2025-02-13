@@ -13,6 +13,22 @@ export const getCompetences = async (req: Request, res: Response) => {
     }
 };
 
+// Récupération d'une compétence par son identifiant
+export const getCompetenceById = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const competence = await Competences.findByPk(id);
+        if (competence) {
+            res.status(200).json(competence);
+        } else {
+            res.status(404).json({ error: 'Compétence non trouvée' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Erreur lors de la récupération de la compétence" });
+    }
+};
+
+// Récupération des compétences d'un personnel avec son identifiant
 export const getCompetencesByPersonnel = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;

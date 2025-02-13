@@ -15,7 +15,6 @@ export const getPersonnel = async (req: Request, res: Response) => {
 export const addPersonnel = async (req: Request, res: Response) => {
     try {
         const { nomP, prenomP, dateEmbaucheP, activiteP, statutP } = req.body;
-
         const newPersonnel = await Personnel.create({
             nomP,
             prenomP,
@@ -48,10 +47,7 @@ export const getPersonnelById = async (req: Request, res: Response) => {
 export const updatePersonnel = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        console.log("Requête reçue :", req.body);
-
         const { prenomP, nomP, dateEmbaucheP, activiteP, statutP } = req.body;
-
         const personnel = await Personnel.findByPk(id);
         if (personnel) {
             if (prenomP) personnel.prenomP = prenomP;
@@ -66,7 +62,6 @@ export const updatePersonnel = async (req: Request, res: Response) => {
             res.status(404).json({ error: "Personnel non trouvé" });
         }
     } catch (error) {
-        console.error("Erreur SQL :", error);
         res.status(500).json({ error: "Erreur lors de la mise à jour du personnel" });
     }
 };

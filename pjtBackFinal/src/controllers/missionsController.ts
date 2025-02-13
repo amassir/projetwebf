@@ -11,6 +11,21 @@ export const getMissions = async (req: Request, res: Response) => {
     }
 };
 
+// Récupération d'une mission par son identifiant
+export const getMissionById = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const mission = await Missions.findByPk(id);
+        if (mission) {
+            res.status(200).json(mission);
+        } else {
+            res.status(404).json({ error: 'Mission non trouvée' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Erreur lors de la récupération de la mission" });
+    }
+};
+
 // Ajout d'une nouvelle mission
 export const addMission = async (req: Request, res: Response) => {
     try {
@@ -27,6 +42,26 @@ export const addMission = async (req: Request, res: Response) => {
         res.status(201).json(newMission);
     } catch (error) {
         res.status(500).json({ error: "Erreur lors de l'ajout d'une mission" });
+    }
+};
+
+// Mise à jour du statut d'une mission
+export const updateMission = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { statutM } = req.body;
+
+        const mission = await Missions.findByPk(id);
+        if (mission) {
+            if (statutM) mission.statutM = statutM;
+
+            await mission.save();
+            res.status(200).json(mission);
+        } else {
+            res.status(404).json({ error: "Mission non trouvée" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Erreur lors de la mise à jour de la mission" });
     }
 };
 
