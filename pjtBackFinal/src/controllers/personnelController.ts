@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Personnel from '../models/personnel';
+import Executer from '../models/executer';
 
 // Récupération de tous les personnels
 export const getPersonnel = async (req: Request, res: Response) => {
@@ -40,6 +41,31 @@ export const getPersonnelById = async (req: Request, res: Response) => {
         }
     } catch (error) {
         res.status(500).json({ error: "Erreur lors de la récupération du personnel" });
+    }
+};
+
+// Récupération des personnels assignés à une mission
+export const getPersonnelByMission = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const executerRecords = await Executer.findAll({
+            where: { idM: id },
+            include: [{ model: Personnel }],
+        });
+
+        const personnels = executerRecords.map(record => ({
+            idP: record.Personnel.idP,
+            prenomP: record.Personnel.prenomP,
+            nomP: record.Personnel.nomP,
+            dateEmbaucheP: record.Personnel.dateEmbaucheP,
+            activiteP: record.Personnel.activiteP,
+            statutP: record.Personnel.statutP
+        }));
+
+        res.status(200).json(personnels);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des personnels :", error);
+        res.status(500).json({ error: "Erreur lors de la récupération des données des personnels" });
     }
 };
 

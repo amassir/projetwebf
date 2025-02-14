@@ -15,23 +15,28 @@ export interface Personnel {
   providedIn: 'root'
 })
 export class PersonnelService {
-  private apiUrl = "http://localhost:3000/api/personnel";
+  private apiUrl1 = "http://localhost:3000/api/personnel";
+  private apiUrl2 = 'http://localhost:3000/api/missions'; 
 
   constructor(private http: HttpClient) {}
 
   getPersonnel(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.apiUrl1);
   }
 
   addPersonnel(personnel: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, personnel);
+    return this.http.post<any>(this.apiUrl1, personnel);
   }
 
   updatePersonnel(id: string, personnel: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, personnel);
+    return this.http.put<any>(`${this.apiUrl1}/${id}`, personnel);
   }
 
   deletePersonnel(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+    return this.http.delete<any>(`${this.apiUrl1}/${id}`);
+  }
+
+  getPersonnelByMission(idM: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl2}/${idM}/personnel`);
   }
 }

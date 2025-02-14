@@ -3,6 +3,8 @@ import { MissionsService } from '../services/missions.service';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { CompetencesModalComponent } from '../competences-modal/competences-modal.component';
 import { AddCompetencesModalComponent } from '../add-competences-modal/add-competences-modal.component'; // Importez le nouveau composant modal
+import { AddPersonnelModalComponent } from '../add-personnel-modal/add-personnel-modal.component'; // Importez le nouveau composant modal
+import { PersonnelModalComponent } from '../personnel-modal/personnel-modal.component'; // Importez le nouveau composant modal
 
 @Component({
   selector: 'app-missions',
@@ -99,5 +101,25 @@ export class MissionsComponent implements OnInit {
       }
     };
     this.bsModalRef = this.modalService.show(AddCompetencesModalComponent, modalOptions);
+  }
+
+  openAddPersonnelModal(mission: any) {
+    const modalOptions: ModalOptions = {
+      class: "modal-lg",
+      initialState: {
+        mission: mission
+      }
+    };
+    this.bsModalRef = this.modalService.show(AddPersonnelModalComponent, modalOptions);
+  }
+
+  openPersonnelModal(mission: any) {
+    const modalOptions: ModalOptions = {
+      class: "modal-lg",
+      initialState: {
+        mission: mission
+      }
+    };
+    this.bsModalRef = this.modalService.show(PersonnelModalComponent, modalOptions);
   }
 }

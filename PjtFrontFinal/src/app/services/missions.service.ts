@@ -36,4 +36,8 @@ export class MissionsService {
   addCompetenceToMission(competenceData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${competenceData.idM}/competences`, competenceData);
   }
+
+  addPersonnelToMission(personnelData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${personnelData.idM}/personnels`, personnelData);
+  }
 }

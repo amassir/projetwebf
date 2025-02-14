@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <h2>Ajouter des personnels à la mission : {{ mission.nomM }}</h2>
+    <button class="btn-close" (click)="bsModalRef.hide()" aria-label="Fermer"></button>
+  </div>
+  
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label>Personnel</label>
+        <select [(ngModel)]="selectedPersonnel" [ngModelOptions]="{standalone: true}" class="form-control">
+          <option *ngFor="let personnel of personnels" [value]="personnel.idP">{{ personnel.prenomP }} {{ personnel.nomP }}</option>
+        </select>
+      </div>
+      <button type="button" class="btn btn-primary mt-4" (click)="addPersonnel()">Ajouter</button>
+    </form>
+  </div>

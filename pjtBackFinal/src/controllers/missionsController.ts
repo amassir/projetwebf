@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import Missions from '../models/missions';
 import Caracteriser from '../models/caracteriser';
+import Executer from '../models/executer';
+import Disposer from '../models/disposer';
 
 // Récupération de toutes les missions
 export const getMissions = async (req: Request, res: Response) => {
@@ -96,3 +98,36 @@ export const addCompetenceToMission = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Erreur lors de l'ajout de la compétence à la mission" });
     }
 };
+
+// Ajout de personnels à une mission
+export const addPersonnelToMission = async (req: Request, res: Response) => {
+    try {
+        const { idM, idP, dateDebutE } = req.body;
+        const newExecuter = await Executer.create({
+            idM,
+            idP,
+            dateDebutE
+        });
+
+        // Vérifiez si toutes les compétences requises pour la mission sont satisfaites
+        const requiredCompetences = await Caracteriser.findAll({ where: { idM } });
+        const personnelCompetences = await Disposer.findAll({ where: { idP } });
+
+        const allCompetencesSatisfied = requiredCompetences.every(rc => 
+            personnelCompetences.some(pc => pc.idC === rc.idC && pc.aptitude === 'confirmé')
+        );
+
+        if (allCompetencesSatisfied) {
+            const mission = await Missions.findByPk(idM);
+            if (mission) {
+                mission.statutM = 'planifiée';
+                await mission.save();
+            }
+        }
+
+        res.status(201).json(newExecuter);
+    } catch (error) {
+        res.status(500).json({ error: "Erreur lors de l'ajout du personnel à la mission" });
+    }
+};
+
