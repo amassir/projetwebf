@@ -32,4 +32,8 @@ export class MissionsService {
   deleteMission(id: number): Observable<void> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
+
+  addCompetenceToMission(competenceData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${competenceData.idM}/competences`, competenceData);
+  }
 }

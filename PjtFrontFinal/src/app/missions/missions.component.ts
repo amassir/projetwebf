@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MissionsService } from '../services/missions.service';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { CompetencesModalComponent } from '../competences-modal/competences-modal.component';
+import { AddCompetencesModalComponent } from '../add-competences-modal/add-competences-modal.component'; // Importez le nouveau composant modal
 
 @Component({
   selector: 'app-missions',
@@ -88,5 +89,15 @@ export class MissionsComponent implements OnInit {
       }
     };
     this.bsModalRef = this.modalService.show(CompetencesModalComponent, modalOptions);
+  }
+
+  openAddCompetencesModal(mission: any) {
+    const modalOptions: ModalOptions = {
+      class: "modal-lg",
+      initialState: {
+        mission: mission
+      }
+    };
+    this.bsModalRef = this.modalService.show(AddCompetencesModalComponent, modalOptions);
   }
 }

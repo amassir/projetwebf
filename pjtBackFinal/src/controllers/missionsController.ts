@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Missions from '../models/missions';
+import Caracteriser from '../models/caracteriser';
 
 // Récupération de toutes les missions
 export const getMissions = async (req: Request, res: Response) => {
@@ -29,7 +30,7 @@ export const getMissionById = async (req: Request, res: Response) => {
 // Ajout d'une nouvelle mission
 export const addMission = async (req: Request, res: Response) => {
     try {
-        const { nomM, descriptionM, dateDebutM, dateFinM,anomalieM } = req.body;
+        const { nomM, descriptionM, dateDebutM, dateFinM, anomalieM } = req.body;
         const statutM = "en préparation";
         const newMission = await Missions.create({
             nomM,
@@ -78,5 +79,20 @@ export const deleteMission = async (req: Request, res: Response) => {
         }
     } catch (error) {
         res.status(500).json({ error: "Erreur lors de la suppression d'une mission" });
+    }
+};
+
+// Ajout de compétences à une mission
+export const addCompetenceToMission = async (req: Request, res: Response) => {
+    try {
+        const { idM, idC, statutC } = req.body;
+        const newCaracteriser = await Caracteriser.create({
+            idM,
+            idC,
+            statutC
+        });
+        res.status(201).json(newCaracteriser);
+    } catch (error) {
+        res.status(500).json({ error: "Erreur lors de l'ajout de la compétence à la mission" });
     }
 };

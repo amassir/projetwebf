@@ -55,8 +55,9 @@
           <td>
             <div class="d-flex" style="width: 100%;">
               <button type="button" class="btn btn-danger me-2" (click)="setDelete(mission)">Supprimer</button>
+              <button type="button" class="btn btn-info me-2" (click)="openCompetencesModal(mission)">Compétences</button>
+              <button type="button" class="btn btn-success" (click)="openAddCompetencesModal(mission)">Ajouter Compétences</button>
             </div>
-            <button type="button" class="btn btn-info mt-1" style="width: calc(50% + 0.5rem);" (click)="openCompetencesModal(mission)">Compétences</button>
           </td>
         </tr>
       </tbody>
