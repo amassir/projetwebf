@@ -1,65 +1,64 @@
 <div class="container mt-4">
-    <div class="card">
-      <h1>Enregistrement d'un personnel</h1>
-  
-      <form>
-        <div class="form-group">
-          <label>Prénom du personnel</label>
-          <input type="text" [(ngModel)]="prenomP" [ngModelOptions]="{standalone: true}" class="form-control" id="prenomP" placeholder="Entrer le prénom">
-        </div>
-        <div class="form-group">
-          <label>Nom du personnel</label>
-          <input type="text" [(ngModel)]="nomP" [ngModelOptions]="{standalone: true}" class="form-control" id="nomP" placeholder="Entrer le nom">
-        </div>
-        <div class="form-group">
-          <label>Date d'entrée en entreprise</label>
-          <input type="date" [(ngModel)]="dateEmbaucheP" [ngModelOptions]="{standalone: true}" class="form-control" id="dateEmbaucheP">
-        </div>
-        <div class="form-group">
-          <label>Activité</label>
-          <input type="text" [(ngModel)]="activiteP" [ngModelOptions]="{standalone: true}" class="form-control" id="activiteP" placeholder="Entrer l'activité">
-        </div>
-        <div class="form-group">
-          <label>Statut</label>
-          <input type="text" [(ngModel)]="statutP" [ngModelOptions]="{standalone: true}" class="form-control" id="statutP" placeholder="Entrer le statut">
-        </div>
-        <button type="button" class="btn btn-primary mt-4" (click)="save()">Enregistrer</button>
-      </form>
-    </div>
-  
-    <div class="container mt-4">
-      <h1>Table du Personnel</h1>
-      <table class="table">
-        <thead>
-          <h1 *ngIf="!isResultloaded">Chargement...</h1>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Date d'entrée</th>
-            <th scope="col">Activité</th>
-            <th scope="col">Statut</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let PersonnelItem of PersonnelArray">
-            <td>{{ PersonnelItem.idP }}</td>
-            <td>{{ PersonnelItem.prenomP }}</td>
-            <td>{{ PersonnelItem.nomP }}</td>
-            <td>{{ PersonnelItem.dateEmbaucheP }}</td>
-            <td>{{ PersonnelItem.activiteP }}</td>
-            <td>{{ PersonnelItem.statutP }}</td>
-            <td>
-              <div class="d-flex" style="width: 100%;">
-                <button type="button" class="btn btn-success me-2" (click)="setUpdate(PersonnelItem)">Modifier</button>
-                <button type="button" class="btn btn-danger" (click)="setDelete(PersonnelItem)">Supprimer</button>
-              </div>
-              <button type="button" class="btn btn-info mt-1" style="width: calc(50% + 0.5rem);" (click)="openCompetencesModal(PersonnelItem)">Compétences</button>
-            </td> 
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="card">
+    <h1>Enregistrement d'un personnel</h1>
+
+    <form>
+      <div class="form-group">
+        <label>Prénom du personnel</label>
+        <input type="text" [(ngModel)]="prenomP" [ngModelOptions]="{standalone: true}" class="form-control" id="prenomP" placeholder="Entrer le prénom">
+      </div>
+      <div class="form-group">
+        <label>Nom du personnel</label>
+        <input type="text" [(ngModel)]="nomP" [ngModelOptions]="{standalone: true}" class="form-control" id="nomP" placeholder="Entrer le nom">
+      </div>
+      <div class="form-group">
+        <label>Date d'entrée en entreprise</label>
+        <input type="date" [(ngModel)]="dateEmbaucheP" [ngModelOptions]="{standalone: true}" class="form-control" id="dateEmbaucheP">
+      </div>
+      <div class="form-group">
+        <label>Activité</label>
+        <input type="text" [(ngModel)]="activiteP" [ngModelOptions]="{standalone: true}" class="form-control" id="activiteP" placeholder="Entrer l'activité">
+      </div>
+      <div class="form-group">
+        <label>Statut</label>
+        <input type="text" [(ngModel)]="statutP" [ngModelOptions]="{standalone: true}" class="form-control" id="statutP" placeholder="Entrer le statut">
+      </div>
+      <button type="button" class="btn btn-primary mt-4" (click)="save()">Enregistrer</button>
+    </form>
   </div>
 
+  <div class="container mt-4">
+    <h1>Table du Personnel</h1>
+    <table class="table">
+      <thead>
+        <h1 *ngIf="!isResultloaded">Chargement...</h1>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Prénom</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Date d'entrée</th>
+          <th scope="col">Activité</th>
+          <th scope="col">Statut</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let PersonnelItem of PersonnelArray; let i = index">
+          <td>{{ i+1 }}</td>
+          <td>{{ PersonnelItem.prenomP }}</td>
+          <td>{{ PersonnelItem.nomP }}</td>
+          <td>{{ PersonnelItem.dateEmbaucheP }}</td>
+          <td>{{ PersonnelItem.activiteP }}</td>
+          <td>{{ PersonnelItem.statutP }}</td>
+          <td>
+            <div class="d-flex" style="width: 100%;">
+              <button type="button" class="btn btn-success me-2" (click)="setUpdate(PersonnelItem)">Modifier</button>
+              <button type="button" class="btn btn-info me-2" (click)="openCompetencesModal(PersonnelItem)">Compétences</button>
+              <button type="button" class="btn btn-danger" (click)="setDelete(PersonnelItem)">Supprimer</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

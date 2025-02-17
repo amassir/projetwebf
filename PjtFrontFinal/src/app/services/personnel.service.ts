@@ -16,10 +16,7 @@ export interface Personnel {
   providedIn: 'root'
 })
 export class PersonnelService {
-  validatePersonnelRecommendations(missionId: number, recommendedPersonnels: any[]): Observable<any> {
-    // Implementation here
-    return this.http.post<any>(`${this.apiUrl2}/${missionId}/validate`, recommendedPersonnels);
-  }
+  
   private apiUrl1 = "http://localhost:3000/api/personnel";
   private apiUrl2 = 'http://localhost:3000/api/missions'; 
 
@@ -43,5 +40,9 @@ export class PersonnelService {
 
   getPersonnelByMission(idM: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl2}/${idM}/personnel`);
+  }
+
+  validatePersonnelRecommendations(missionId: number, recommendedPersonnels: any[]): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl2}/${missionId}/validate`, recommendedPersonnels);
   }
 }

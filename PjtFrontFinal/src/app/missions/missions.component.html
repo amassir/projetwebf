@@ -33,7 +33,7 @@
       <thead>
         <h1 *ngIf="!isResultloaded">Chargement...</h1>
         <tr>
-          <th scope="col">ID</th>
+          <th scope="col">#</th>
           <th scope="col">Nom</th>
           <th scope="col">Description</th>
           <th scope="col">Date de début</th>
@@ -44,8 +44,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let mission of missionsArray">
-          <td>{{ mission.idM }}</td>
+        <tr *ngFor="let mission of missionsArray; let i = index">
+          <td>{{ i+1 }}</td>
           <td>{{ mission.nomM }}</td>
           <td>{{ mission.descriptionM }}</td>
           <td>{{ mission.dateDebutM }}</td>
@@ -54,11 +54,11 @@
           <td>{{ mission.anomalieM }}</td>
           <td>
             <div class="d-flex" style="width: 100%;">
-              <button type="button" class="btn btn-danger me-2" (click)="setDelete(mission)">Supprimer</button>
               <button type="button" class="btn btn-info me-2" (click)="openCompetencesModal(mission)">Compétences</button>
+              <button type="button" class="btn btn-secondary me-2" (click)="openPersonnelModal(mission)">Personnels</button>
               <button type="button" class="btn btn-success me-2" (click)="openAddCompetencesModal(mission)">Ajouter Compétences</button>
               <button type="button" class="btn btn-warning me-2" (click)="openAddPersonnelModal(mission)">Ajouter Personnel</button>
-              <button type="button" class="btn btn-secondary" (click)="openPersonnelModal(mission)">Personnels</button>
+              <button type="button" class="btn btn-danger" (click)="setDelete(mission)">Supprimer</button>
             </div>
           </td>
         </tr>

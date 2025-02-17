@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import Personnel from '../models/personnel';
 import Executer from '../models/executer';
+import Missions from '../models/missions';
+import Caracteriser from '../models/caracteriser';
 
 // Récupération de tous les personnels
 export const getPersonnel = async (req: Request, res: Response) => {
@@ -92,6 +94,42 @@ export const updatePersonnel = async (req: Request, res: Response) => {
     }
 };
 
+// Validation des recommandations de personnels pour une mission
+export const validatePersonnelRecommendations = async (req: Request, res: Response) => {
+    try {
+        const { idM } = req.params;
+        const recommendedPersonnels = req.body;
+
+        for (const personnel of recommendedPersonnels) {
+            await Executer.create({
+                idM,
+                idP: personnel.idP,
+                dateDebutE: new Date()
+            });
+        }
+
+        // Vérifiez si toutes les compétences requises pour la mission sont satisfaites
+        const requiredCompetences = await Caracteriser.findAll({ where: { idM } });
+        const allCompetencesSatisfied = requiredCompetences.every(rc => 
+            recommendedPersonnels.some((personnel: any) => 
+                personnel.competences.some((pc: any) => pc.idC === rc.idC && pc.aptitude === 'confirmé')
+            )
+        );
+
+        if (allCompetencesSatisfied) {
+            const mission = await Missions.findByPk(idM);
+            if (mission) {
+                mission.statutM = 'planifiée';
+                await mission.save();
+            }
+        }
+
+        res.status(200).json({ message: 'Recommandations validées avec succès' });
+    } catch (error) {
+        console.error("Erreur lors de la validation des recommandations :", error);
+        res.status(500).json({ error: "Erreur lors de la validation des recommandations" });
+    }
+};
 
 // Suppression d'un personnel avec son identifiant
 export const deletePersonnel = async (req: Request, res: Response) => {
