@@ -1,1 +1,38 @@
-<p>personnel-recommendation works!</p>
+<div class="container mt-4">
+    <h1>Recommandation de Personnels pour la Mission</h1>
+  
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Compétences</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let personnel of personnels">
+          <td>
+            <input
+              type="checkbox"
+              [checked]="selectedPersonnels.includes(personnel)"
+              (change)="toggleSelection(personnel)"
+              id="select-{{ personnel.idP }}"
+            />
+          </td>
+          <td>{{ personnel.nomP }}</td>
+          <td>{{ personnel.prenomP }}</td>
+          <td>{{ personnel.competences.join(', ') }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <button
+      type="button"
+      class="btn btn-success mt-4"
+      (click)="assignPersonnels()"
+      [disabled]="selectedPersonnels.length === 0"
+    >
+      Confirmer la sélection
+    </button>
+</div>

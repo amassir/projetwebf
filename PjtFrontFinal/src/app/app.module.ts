@@ -17,6 +17,7 @@ import { PersonnelRecommendationComponent} from './personnel-recommendation/pers
 import { AddCompetencesModalComponent } from './add-competences-modal/add-competences-modal.component';
 import { AddPersonnelModalComponent } from './add-personnel-modal/add-personnel-modal.component';
 import { PersonnelModalComponent } from './personnel-modal/personnel-modal.component';    
+
 @NgModule({
   declarations: [
     AppComponent,

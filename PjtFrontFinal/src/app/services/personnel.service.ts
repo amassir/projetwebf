@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+
 export interface Personnel {
   idP: number;
   prenomP: string;
@@ -15,6 +16,10 @@ export interface Personnel {
   providedIn: 'root'
 })
 export class PersonnelService {
+  validatePersonnelRecommendations(missionId: number, recommendedPersonnels: any[]): Observable<any> {
+    // Implementation here
+    return this.http.post<any>(`${this.apiUrl2}/${missionId}/validate`, recommendedPersonnels);
+  }
   private apiUrl1 = "http://localhost:3000/api/personnel";
   private apiUrl2 = 'http://localhost:3000/api/missions'; 
 
