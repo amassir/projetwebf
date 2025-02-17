@@ -1,54 +1,54 @@
 .home-container {
-    text-align: center;
-    padding: 20px;
-    background-color: #e3f2fd; /* Light blue background */
-  }
-  
-  .home-header {
-    background-color: #0d47a1; /* Dark blue background */
-    color: #ffffff; /* White text */
-    padding: 20px;
-    border-bottom: 2px solid #0b3954; /* Darker blue border */
-  }
-  
-  .home-header h1 {
-    margin: 0;
-    font-size: 2.5em;
-  }
-  
-  .home-header p {
-    margin: 10px 0 0;
-    font-size: 1.2em;
-  }
-  
-  .home-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin-top: 20px;
-  }
-  
-  .feature {
-    background-color: #ffffff;
-    border: 1px solid #b0bec5; /* Light grey border */
-    border-radius: 10px;
-    padding: 20px;
-    width: 45%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    transition: transform 0.2s;
-  }
-  
-  .feature:hover {
-    transform: scale(1.05);
-  }
-  
-  .feature h2 {
-    margin-top: 0;
-    font-size: 1.5em;
-    color: #0d47a1; /* Dark blue */
-  }
-  
-  .feature p {
-    color: #546e7a; /* Dark grey */
-  }
+  text-align: center;
+  padding: 20px;
+  background-color: #e3f2fd; /* Fond bleu clair */
+}
+
+.home-header {
+  background-color: #0d47a1; /* Fond bleu foncé */
+  color: #ffffff; /* Texte blanc */
+  padding: 20px;
+  border-bottom: 2px solid #0b3954; /* Bordure bleu plus foncé */
+}
+
+.home-header h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+.home-header p {
+  margin: 10px 0 0;
+  font-size: 1.2em;
+}
+
+.home-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.feature {
+  background-color: #ffffff;
+  border: 1px solid #b0bec5; /* Bordure gris clair */
+  border-radius: 10px;
+  padding: 20px;
+  width: 45%; /* Pour que les éléments prennent 45% de largeur */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: transform 0.2s;
+}
+
+.feature:hover {
+  transform: scale(1.05); /* Effet de zoom au survol */
+}
+
+.feature h2 {
+  margin-top: 0;
+  font-size: 1.5em;
+  color: #0d47a1; /* Bleu foncé pour les titres */
+}
+
+.feature p {
+  color: #546e7a; /* Gris foncé pour les paragraphes */
+}
