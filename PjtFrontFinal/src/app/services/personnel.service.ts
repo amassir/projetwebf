@@ -45,4 +45,8 @@ export class PersonnelService {
   validatePersonnelRecommendations(missionId: number, recommendedPersonnels: any[]): Observable<any> {
     return this.http.post<any>(`${this.apiUrl2}/${missionId}/validate`, recommendedPersonnels);
   }
+
+  getPersonnelByCompetence(idC: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl1}/competence/${idC}`);
+  }
 }

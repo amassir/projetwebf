@@ -107,7 +107,8 @@ export class MissionsComponent implements OnInit {
     const modalOptions: ModalOptions = {
       class: "modal-lg",
       initialState: {
-        mission: mission
+        mission: mission,
+        competences: mission.Competences
       }
     };
     this.bsModalRef = this.modalService.show(AddPersonnelModalComponent, modalOptions);

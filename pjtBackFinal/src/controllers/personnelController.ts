@@ -3,6 +3,7 @@ import Personnel from '../models/personnel';
 import Executer from '../models/executer';
 import Missions from '../models/missions';
 import Caracteriser from '../models/caracteriser';
+import Disposer from '../models/disposer';
 
 // Récupération de tous les personnels
 export const getPersonnel = async (req: Request, res: Response) => {
@@ -67,6 +68,31 @@ export const getPersonnelByMission = async (req: Request, res: Response) => {
         res.status(200).json(personnels);
     } catch (error) {
         console.error("Erreur lors de la récupération des personnels :", error);
+        res.status(500).json({ error: "Erreur lors de la récupération des données des personnels" });
+    }
+};
+
+// Récupération des personnels par compétence
+export const getPersonnelByCompetence = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const disposerRecords = await Disposer.findAll({
+            where: { idC: id },
+            include: [{ model: Personnel }]
+        });
+
+        const personnels = disposerRecords.map(record => ({
+            idP: record.Personnel.idP,
+            prenomP: record.Personnel.prenomP,
+            nomP: record.Personnel.nomP,
+            dateEmbaucheP: record.Personnel.dateEmbaucheP,
+            activiteP: record.Personnel.activiteP,
+            statutP: record.Personnel.statutP
+        }));
+
+        res.status(200).json(personnels);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des personnels par compétence :", error);
         res.status(500).json({ error: "Erreur lors de la récupération des données des personnels" });
     }
 };

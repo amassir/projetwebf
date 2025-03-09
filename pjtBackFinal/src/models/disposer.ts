@@ -5,9 +5,10 @@ import {Personnel} from "./personnel";
 
 export class Disposer extends Model {
     public idP!: number;
-    public idC!: number;
+    public idC!: string;
     public aptitude!: 'novice' | 'confirmé';
     Competence: any;
+    Personnel: any;
 }
 
 Disposer.init({

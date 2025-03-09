@@ -6,7 +6,7 @@ import {Missions} from "./missions";
 
 export class Caracteriser extends Model {
     public idM!: number;
-    public idC!: number;
+    public idC!: string;
     public statutC!: 'non satisfait' | 'satisfait';
     Competence: any;
 }

@@ -2,7 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from '../bd/bd';
 
 export class Competences extends Model {
-    public idC!: number;
+    public idC!: string;
     public nomCfr!: string;
     public nomCen!: string;
 }
