@@ -8,6 +8,7 @@ export class Executer extends Model {
     public idP!: number;
     public dateDebutE!: Date;
     Personnel: any;
+    Mission: any;
 }
 
 Executer.init({
