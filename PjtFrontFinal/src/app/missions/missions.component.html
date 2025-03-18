@@ -44,8 +44,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let mission of missionsArray; let i = index">
-          <td>{{ i+1 }}</td>
+        <tr *ngFor="let mission of missionsArray">
+          <td>{{ mission.idM }}</td>
           <td>{{ mission.nomM }}</td>
           <td>{{ mission.descriptionM }}</td>
           <td>{{ mission.dateDebutM }}</td>

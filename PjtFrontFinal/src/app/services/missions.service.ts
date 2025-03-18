@@ -15,7 +15,6 @@ export interface Missions {
 @Injectable({
   providedIn: 'root'
 })
-
 export class MissionsService {
   private apiUrl = 'http://localhost:3000/api/missions'; 
 
@@ -48,4 +47,10 @@ export class MissionsService {
   addPersonnelToMission(personnelData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${personnelData.idM}/personnels`, personnelData);
   }
+
+  // Ajout de la méthode pour récupérer les recommandations de personnel
+  getRecommendedPersonnel(missionId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${missionId}/recommendations`);
+  }
+  
 }

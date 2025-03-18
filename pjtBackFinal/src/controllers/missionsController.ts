@@ -1,21 +1,24 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import Missions from '../models/missions';
 import Caracteriser from '../models/caracteriser';
 import Executer from '../models/executer';
 import Disposer from '../models/disposer';
+import Personnel from '../models/personnel';
+import Competences from '../models/competences';
+import { Op } from 'sequelize';
 
-// Récupération de toutes les missions
-export const getMissions = async (req: Request, res: Response) => {
+// ✅ Récupérer toutes les missions
+export const getMissions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const missions = await Missions.findAll();
         res.status(200).json(missions);
     } catch (error) {
-        res.status(500).json({ error: "Erreur lors de la récupération des données des missions" });
+        next(error);
     }
 };
 
-// Récupération d'une mission par son identifiant
-export const getMissionById = async (req: Request, res: Response) => {
+// ✅ Récupérer une mission par ID
+export const getMissionById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
         const mission = await Missions.findByPk(id);
@@ -25,12 +28,12 @@ export const getMissionById = async (req: Request, res: Response) => {
             res.status(404).json({ error: 'Mission non trouvée' });
         }
     } catch (error) {
-        res.status(500).json({ error: "Erreur lors de la récupération de la mission" });
+        next(error);
     }
 };
 
-// Ajout d'une nouvelle mission
-export const addMission = async (req: Request, res: Response) => {
+// ✅ Ajouter une mission
+export const addMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { nomM, descriptionM, dateDebutM, dateFinM, anomalieM } = req.body;
         const statutM = "en préparation";
@@ -44,12 +47,12 @@ export const addMission = async (req: Request, res: Response) => {
         });
         res.status(201).json(newMission);
     } catch (error) {
-        res.status(500).json({ error: "Erreur lors de l'ajout d'une mission" });
+        next(error);
     }
 };
 
-// Mise à jour du statut d'une mission
-export const updateMission = async (req: Request, res: Response) => {
+// ✅ Modifier le statut d'une mission
+export const updateMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
         const { statutM } = req.body;
@@ -64,12 +67,12 @@ export const updateMission = async (req: Request, res: Response) => {
             res.status(404).json({ error: "Mission non trouvée" });
         }
     } catch (error) {
-        res.status(500).json({ error: "Erreur lors de la mise à jour de la mission" });
+        next(error);
     }
 };
 
-// Suppression d'une mission avec son identifiant
-export const deleteMission = async (req: Request, res: Response) => {
+// ✅ Supprimer une mission
+export const deleteMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
         const mission = await Missions.findByPk(id);
@@ -80,54 +83,89 @@ export const deleteMission = async (req: Request, res: Response) => {
             res.status(404).json({ error: 'Mission non trouvée' });
         }
     } catch (error) {
-        res.status(500).json({ error: "Erreur lors de la suppression d'une mission" });
+        next(error);
     }
 };
 
-// Ajout de compétences à une mission
-export const addCompetenceToMission = async (req: Request, res: Response) => {
+// ✅ Ajouter une compétence à une mission
+export const addCompetenceToMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const { idM, idC, statutC } = req.body;
+        const { id } = req.params;
+        const { idC, statutC } = req.body;
+
         const newCaracteriser = await Caracteriser.create({
-            idM,
+            idM: id,
             idC,
             statutC
         });
+
         res.status(201).json(newCaracteriser);
     } catch (error) {
-        res.status(500).json({ error: "Erreur lors de l'ajout de la compétence à la mission" });
+        next(error);
     }
 };
 
-// Ajout de personnels à une mission
-export const addPersonnelToMission = async (req: Request, res: Response) => {
+// ✅ Ajouter un personnel à une mission
+export const addPersonnelToMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const { idM, idP, dateDebutE } = req.body;
+        const { id } = req.params;
+        const { idP, dateDebutE } = req.body;
+
         const newExecuter = await Executer.create({
-            idM,
+            idM: id,
             idP,
             dateDebutE
         });
 
-        // Vérifiez si toutes les compétences requises pour la mission sont satisfaites
-        const requiredCompetences = await Caracteriser.findAll({ where: { idM } });
-        const personnelCompetences = await Disposer.findAll({ where: { idP } });
-
-        const allCompetencesSatisfied = requiredCompetences.every(rc => 
-            personnelCompetences.some(pc => pc.idC === rc.idC && pc.aptitude === 'confirmé')
-        );
-
-        if (allCompetencesSatisfied) {
-            const mission = await Missions.findByPk(idM);
-            if (mission) {
-                mission.statutM = 'planifiée';
-                await mission.save();
-            }
-        }
-
         res.status(201).json(newExecuter);
     } catch (error) {
-        res.status(500).json({ error: "Erreur lors de l'ajout du personnel à la mission" });
+        next(error);
     }
 };
 
+// ✅ Recommandation de personnel pour une mission
+export const recommendPersonnelForMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { id } = req.params;
+
+        // Récupérer les compétences requises pour la mission
+        const requiredCompetences = await Caracteriser.findAll({
+            where: { idM: id },
+            include: [{ model: Competences, as: 'Competence' }]
+        });
+
+        if (!requiredCompetences.length) {
+            res.status(404).json({ message: "Aucune compétence requise pour cette mission" });
+            return;
+        }
+
+        const competenceIds = requiredCompetences.map(rc => rc.idC);
+
+        // Rechercher le personnel ayant ces compétences avec une aptitude "confirmé"
+        const qualifiedPersonnel = await Disposer.findAll({
+            where: { idC: { [Op.in]: competenceIds }, aptitude: 'confirmé' },
+            include: [
+                { model: Personnel, as: 'Personnel' },
+                { model: Competences, as: 'Competence' }
+            ]
+        });
+
+        if (!qualifiedPersonnel.length) {
+            res.status(404).json({ message: "Aucun personnel qualifié trouvé" });
+            return;
+        }
+
+        // Construire la liste des recommandations
+        const recommendedPersonnel = qualifiedPersonnel.map(qp => ({
+            idP: qp.Personnel.idP,
+            nom: qp.Personnel.nomP, 
+            prenom: qp.Personnel.prenomP, 
+            competence: qp.Competence.nomCfr // ou `qp.Competence.nomCen` selon la langue
+        }));
+
+        res.status(200).json(recommendedPersonnel);
+    } catch (error) {
+        console.error("Erreur lors de la recommandation :", error);
+        next(error); // Utilisation de NextFunction pour une meilleure gestion des erreurs
+    }
+};

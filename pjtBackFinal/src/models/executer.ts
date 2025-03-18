@@ -43,7 +43,7 @@ Executer.init({
 
 );
 
-Executer.belongsTo(Missions, {foreignKey: 'idM'});
-Executer.belongsTo(Personnel, {foreignKey: 'idP'})
+Executer.belongsTo(Missions, { foreignKey: 'idM', as: 'Mission' });
+Executer.belongsTo(Personnel, { foreignKey: 'idP', as: 'Personnel' });
 
 export default Executer;

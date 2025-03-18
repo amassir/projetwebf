@@ -1,38 +1,40 @@
 <div class="container mt-4">
-    <h1>Recommandation de Personnels pour la Mission</h1>
-  
-    <table class="table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Compétences</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let personnel of personnels">
-          <td>
-            <input
-              type="checkbox"
-              [checked]="selectedPersonnels.includes(personnel)"
-              (change)="toggleSelection(personnel)"
-              id="select-{{ personnel.idP }}"
-            />
-          </td>
-          <td>{{ personnel.nomP }}</td>
-          <td>{{ personnel.prenomP }}</td>
-          <td>{{ personnel.competences.join(', ') }}</td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <button
-      type="button"
-      class="btn btn-success mt-4"
-      (click)="assignPersonnels()"
-      [disabled]="selectedPersonnels.length === 0"
-    >
-      Confirmer la sélection
-    </button>
+  <h1>Recommandation de Personnel</h1>
+
+  <!-- Sélection de la mission -->
+  <div class="form-group">
+    <label for="missionSelect">Sélectionner une mission</label>
+    <input type="number" [(ngModel)]="selectedMissionId" class="form-control" id="missionSelect" placeholder="ID de la mission">
+  </div>
+
+  <button type="button" class="btn btn-primary mt-3" (click)="getRecommendations()">Obtenir Recommandations</button>
+
+  <!-- Affichage du message de chargement -->
+  <div *ngIf="isLoading" class="mt-3">Chargement...</div>
+
+  <!-- Affichage des erreurs -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+
+  <!-- Tableau des recommandations -->
+  <table *ngIf="recommendedPersonnel.length > 0 && !isLoading" class="table mt-4">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Compétence</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let person of recommendedPersonnel; let i = index">
+        <td>{{ i+1 }}</td>
+        <td>{{ person.prenom }}</td>
+        <td>{{ person.nom }}</td>
+        <td>{{ person.competence ? person.competence : "Aucune compétence" }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Message si aucune recommandation trouvée -->
+  <p *ngIf="!isLoading && recommendedPersonnel.length === 0 && !errorMessage">Aucune recommandation trouvée.</p>
 </div>

@@ -1,5 +1,14 @@
 import { Router } from 'express';
-import { getMissions, addMission, addCompetenceToMission, addPersonnelToMission, deleteMission, updateMission, getMissionById } from '../controllers/missionsController';
+import { 
+    getMissions, 
+    addMission, 
+    addCompetenceToMission, 
+    addPersonnelToMission, 
+    deleteMission, 
+    updateMission, 
+    getMissionById, 
+    recommendPersonnelForMission
+} from '../controllers/missionsController';
 
 const router = Router();
 
@@ -10,5 +19,8 @@ router.post('/missions/:id/competences', addCompetenceToMission);
 router.post('/missions/:id/personnels', addPersonnelToMission);
 router.put('/missions/:id', updateMission);
 router.delete('/missions/:id', deleteMission);
+
+// ✅ Assure-toi que cette route est correcte
+router.get('/missions/:id/recommendations', recommendPersonnelForMission);
 
 export default router;

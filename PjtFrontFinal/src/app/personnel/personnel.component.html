@@ -43,19 +43,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let PersonnelItem of PersonnelArray; let i = index">
-          <td>{{ i+1 }}</td>
+        <tr *ngFor="let PersonnelItem of PersonnelArray">
+          <td>{{ PersonnelItem.idP }}</td>
           <td>{{ PersonnelItem.prenomP }}</td>
           <td>{{ PersonnelItem.nomP }}</td>
           <td>{{ PersonnelItem.dateEmbaucheP }}</td>
           <td>{{ PersonnelItem.activiteP }}</td>
           <td>{{ PersonnelItem.statutP }}</td>
           <td>
-            <div class="d-flex" style="width: 100%;">
-              <button type="button" class="btn btn-success me-2" (click)="setUpdate(PersonnelItem)">Modifier</button>
-              <button type="button" class="btn btn-info me-2" (click)="openCompetencesModal(PersonnelItem)">Compétences</button>
+            <div class="d-flex justify-content-between" style="width: 100%;">
+              <button type="button" class="btn btn-success" (click)="setUpdate(PersonnelItem)">Modifier</button>
+              <button type="button" class="btn btn-info" (click)="openCompetencesModal(PersonnelItem)">Compétences</button>
               <button type="button" class="btn btn-danger" (click)="setDelete(PersonnelItem)">Supprimer</button>
-            </div>
+            </div>            
           </td>
         </tr>
       </tbody>
