@@ -9,7 +9,6 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'personnel', component: PersonnelComponent},
   {path: 'missions', component: MissionsComponent },
-  {path: 'personnel-recommendation', component: PersonnelRecommendationComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full' },
   {path: '**', component: HomeComponent},
 ];

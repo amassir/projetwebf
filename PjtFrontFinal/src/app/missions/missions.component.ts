@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MissionsService } from '../services/missions.service';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { CompetencesModalComponent } from '../competences-modal/competences-modal.component';
-import { AddCompetencesModalComponent } from '../add-competences-modal/add-competences-modal.component'; // Importez le nouveau composant modal
-import { AddPersonnelModalComponent } from '../add-personnel-modal/add-personnel-modal.component'; // Importez le nouveau composant modal
-import { PersonnelModalComponent } from '../personnel-modal/personnel-modal.component'; // Importez le nouveau composant modal
+import { AddCompetencesModalComponent } from '../add-competences-modal/add-competences-modal.component';
+import { AddPersonnelModalComponent } from '../add-personnel-modal/add-personnel-modal.component';
+import { PersonnelModalComponent } from '../personnel-modal/personnel-modal.component';
+import { PersonnelRecommendationComponent } from '../personnel-recommendation/personnel-recommendation.component';
 
 @Component({
   selector: 'app-missions',
@@ -14,8 +15,7 @@ import { PersonnelModalComponent } from '../personnel-modal/personnel-modal.comp
 })
 export class MissionsComponent implements OnInit {
   missionsArray: any[] = [];
-  isResultloaded = false;
-  isUpdateFormActive = false;
+  isResultLoaded = false;
   bsModalRef?: BsModalRef;
 
   nomM = "";
@@ -33,12 +33,12 @@ export class MissionsComponent implements OnInit {
   getMissions() {
     this.missionsService.getMissions().subscribe({
       next: (resultData) => {
-        this.isResultloaded = true;
+        this.isResultLoaded = true;
         this.missionsArray = resultData;
       },
       error: (err) => {
-        console.error("Error fetching missions:", err);
-        alert("Failed to fetch missions. Please try again.");
+        console.error("❌ Erreur lors de la récupération des missions :", err);
+        alert("Erreur de récupération des missions.");
       }
     });
   }
@@ -55,40 +55,46 @@ export class MissionsComponent implements OnInit {
 
     this.missionsService.addMission(missionData).subscribe({
       next: () => {
-        alert("Mission Registered Successfully");
+        alert("✅ Mission ajoutée avec succès !");
         this.getMissions();
       },
       error: (err) => {
-        console.error("Error registering mission:", err);
-        alert("Failed to register mission. Please try again.");
+        console.error("❌ Erreur lors de l'ajout de la mission :", err);
+        alert("Erreur lors de l'ajout de la mission.");
       }
     });
   }
 
   setDelete(mission: any) {
     if (!mission.idM) {
-      alert("Invalid mission ID");
+      alert("⚠️ Mission invalide !");
       return;
     }
 
     this.missionsService.deleteMission(mission.idM).subscribe({
       next: () => {
-        alert("Mission Deleted Successfully");
+        alert("🗑️ Mission supprimée !");
         this.missionsArray = this.missionsArray.filter(m => m.idM !== mission.idM);
       },
       error: (err) => {
-        console.error("Error deleting mission:", err);
-        alert("Failed to delete mission. Please try again.");
+        console.error("❌ Erreur lors de la suppression :", err);
+        alert("Erreur lors de la suppression de la mission.");
       }
     });
+  }
+
+  openPersonnelRecommendationModal(mission: any) {
+    const modalOptions: ModalOptions = {
+      class: "modal-lg",
+      initialState: { mission }
+    };
+    this.bsModalRef = this.modalService.show(PersonnelRecommendationComponent, modalOptions);
   }
 
   openCompetencesModal(mission: any) {
     const modalOptions: ModalOptions = {
       class: "modal-lg",
-      initialState: {
-        mission: mission
-      }
+      initialState: { mission }
     };
     this.bsModalRef = this.modalService.show(CompetencesModalComponent, modalOptions);
   }
@@ -96,9 +102,7 @@ export class MissionsComponent implements OnInit {
   openAddCompetencesModal(mission: any) {
     const modalOptions: ModalOptions = {
       class: "modal-lg",
-      initialState: {
-        mission: mission
-      }
+      initialState: { mission }
     };
     this.bsModalRef = this.modalService.show(AddCompetencesModalComponent, modalOptions);
   }
@@ -107,7 +111,7 @@ export class MissionsComponent implements OnInit {
     const modalOptions: ModalOptions = {
       class: "modal-lg",
       initialState: {
-        mission: mission,
+        mission,
         competences: mission.Competences
       }
     };
@@ -117,9 +121,7 @@ export class MissionsComponent implements OnInit {
   openPersonnelModal(mission: any) {
     const modalOptions: ModalOptions = {
       class: "modal-lg",
-      initialState: {
-        mission: mission
-      }
+      initialState: { mission }
     };
     this.bsModalRef = this.modalService.show(PersonnelModalComponent, modalOptions);
   }

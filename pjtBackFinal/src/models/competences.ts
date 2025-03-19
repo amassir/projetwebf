@@ -11,7 +11,6 @@ Competences.init({
         idC: {
             type: DataTypes.STRING,
             primaryKey: true,
-            autoIncrement: true,
         },
         nomCen: {
             type: DataTypes.STRING,

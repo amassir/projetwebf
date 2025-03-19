@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MissionsService } from '../services/missions.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { PersonnelService } from '../services/personnel.service';
+import { MissionsService, Missions } from '../services/missions.service';
 
 @Component({
   selector: 'app-personnel-recommendation',
@@ -8,40 +10,58 @@ import { MissionsService } from '../services/missions.service';
   styleUrls: ['./personnel-recommendation.component.css']
 })
 export class PersonnelRecommendationComponent implements OnInit {
+  @Input() mission!: Missions;
   recommendedPersonnel: any[] = [];
-  isLoading = false;
-  selectedMissionId: number | null = null;
-  errorMessage: string | null = null; // Ajout d'un message d'erreur
+  isLoading = true;
+  errorMessage: string = '';
 
-  constructor(private missionsService: MissionsService) {}
+  constructor(
+    public bsModalRef: BsModalRef,
+    private personnelService: PersonnelService,
+    private missionsService: MissionsService
+  ) {}
 
-  ngOnInit(): void {}
-
-  getRecommendations() {
-    if (!this.selectedMissionId) {
-      alert("Veuillez sélectionner une mission");
+  ngOnInit() {
+    if (!this.mission) {
+      this.errorMessage = "🚨 Erreur: mission non définie !";
       return;
     }
-    
-    this.isLoading = true;
-    this.errorMessage = null; // Réinitialiser le message d'erreur
-    
-    this.missionsService.getRecommendedPersonnel(this.selectedMissionId).subscribe({
-      next: (resultData) => {
-        this.isLoading = false;
-        console.log("Données reçues :", resultData); // Debug: affiche les données dans la console
-        
-        if (resultData.length === 0) {
-          this.errorMessage = "Aucune recommandation trouvée pour cette mission.";
-        }
+    this.getRecommendations();
+  }
 
-        this.recommendedPersonnel = resultData;
-      },
-      error: (err) => {
+  getRecommendations() {
+    this.missionsService.getRecommendedPersonnel(this.mission.idM).subscribe({
+      next: (data: any) => {
+        if (Array.isArray(data) && data.length > 0) {
+          this.recommendedPersonnel = data;
+        } else {
+          this.errorMessage = data?.message || "Aucune recommandation disponible.";
+        }
         this.isLoading = false;
-        console.error("Erreur lors du chargement des recommandations:", err);
-        this.errorMessage = "Impossible de récupérer les recommandations. Vérifiez l'ID de la mission.";
+      },
+      error: (err: any) => {
+        console.error("Erreur lors du chargement :", err);
+        this.errorMessage = "Impossible de récupérer les recommandations.";
+        this.isLoading = false;
       }
     });
-  }  
+  }
+
+  assignPersonnel(personnel: any) {
+    const personnelData = { idM: this.mission.idM, idP: personnel.idP, dateDebutE: new Date() };
+  
+    this.missionsService.addPersonnelToMission(personnelData).subscribe({
+      next: () => {
+        personnel.assigned = true; // Met à jour l'état de l'élément dans recommendedPersonnel
+        this.recommendedPersonnel = this.recommendedPersonnel.map(p =>
+          p.idP === personnel.idP ? { ...p, assigned: true } : p
+        );
+      },
+      error: (err: any) => {
+        console.error("Erreur lors de l'assignation :", err);
+        this.errorMessage = err.error.message || "Impossible d'assigner ce personnel.";
+      }
+    });
+  }
+  
 }

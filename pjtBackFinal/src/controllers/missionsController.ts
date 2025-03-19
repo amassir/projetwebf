@@ -17,6 +17,44 @@ export const getMissions = async (req: Request, res: Response, next: NextFunctio
     }
 };
 
+export const getPersonnelByMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { id } = req.params;
+
+        // Vérifier si la mission existe
+        const mission = await Missions.findByPk(id);
+        if (!mission) {
+            res.status(404).json({ message: "Mission non trouvée" });
+            return;
+        }
+
+        // Récupérer les personnels assignés à cette mission
+        const assignedPersonnel = await Executer.findAll({
+            where: { idM: id },
+            include: [{ model: Personnel, as: 'Personnel' }]
+        });
+
+        // Vérifier si aucun personnel n'est affecté à cette mission
+        if (assignedPersonnel.length === 0) {
+            res.status(200).json({ message: "Aucun personnel n'est assigné à cette mission" });
+            return;
+        }
+
+        // Construire la réponse avec les données des personnels
+        const personnelList = assignedPersonnel.map(execution => ({
+            idP: execution.Personnel.idP,
+            nom: execution.Personnel.nomP,
+            prenom: execution.Personnel.prenomP,
+        }));
+
+        res.status(200).json(personnelList);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des personnels de la mission :", error);
+        next(error);
+    }
+};
+
+
 // ✅ Récupérer une mission par ID
 export const getMissionById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -105,28 +143,16 @@ export const addCompetenceToMission = async (req: Request, res: Response, next: 
     }
 };
 
-// ✅ Ajouter un personnel à une mission
-export const addPersonnelToMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-        const { id } = req.params;
-        const { idP, dateDebutE } = req.body;
-
-        const newExecuter = await Executer.create({
-            idM: id,
-            idP,
-            dateDebutE
-        });
-
-        res.status(201).json(newExecuter);
-    } catch (error) {
-        next(error);
-    }
-};
-
-// ✅ Recommandation de personnel pour une mission
 export const recommendPersonnelForMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
+
+        // Vérifier si la mission existe
+        const mission = await Missions.findByPk(id);
+        if (!mission) {
+            res.status(404).json({ message: "Mission non trouvée" });
+            return;
+        }
 
         // Récupérer les compétences requises pour la mission
         const requiredCompetences = await Caracteriser.findAll({
@@ -134,38 +160,108 @@ export const recommendPersonnelForMission = async (req: Request, res: Response, 
             include: [{ model: Competences, as: 'Competence' }]
         });
 
-        if (!requiredCompetences.length) {
-            res.status(404).json({ message: "Aucune compétence requise pour cette mission" });
+        // Si la mission existe mais n'a pas de compétences associées
+        if (requiredCompetences.length === 0) {
+            res.status(200).json({ message: "Cette mission n'a pas de compétences requises" });
             return;
         }
 
         const competenceIds = requiredCompetences.map(rc => rc.idC);
 
-        // Rechercher le personnel ayant ces compétences avec une aptitude "confirmé"
+        // Rechercher le personnel ayant ces compétences
         const qualifiedPersonnel = await Disposer.findAll({
-            where: { idC: { [Op.in]: competenceIds }, aptitude: 'confirmé' },
+            where: { idC: { [Op.in]: competenceIds } },
             include: [
                 { model: Personnel, as: 'Personnel' },
                 { model: Competences, as: 'Competence' }
             ]
         });
 
-        if (!qualifiedPersonnel.length) {
-            res.status(404).json({ message: "Aucun personnel qualifié trouvé" });
+        // Vérifier si aucun personnel n'est qualifié
+        if (qualifiedPersonnel.length === 0) {
+            res.status(404).json({ message: "Aucun personnel qualifié trouvé pour cette mission" });
             return;
         }
 
+        // Trier d'abord les "confirmés", puis les "novices"
+        const sortedPersonnel = qualifiedPersonnel.sort((a, b) => {
+            if (a.aptitude === "confirmé" && b.aptitude !== "confirmé") return -1;
+            if (a.aptitude !== "confirmé" && b.aptitude === "confirmé") return 1;
+            return 0;
+        });
+
         // Construire la liste des recommandations
-        const recommendedPersonnel = qualifiedPersonnel.map(qp => ({
+        const recommendedPersonnel = sortedPersonnel.map(qp => ({
             idP: qp.Personnel.idP,
-            nom: qp.Personnel.nomP, 
-            prenom: qp.Personnel.prenomP, 
-            competence: qp.Competence.nomCfr // ou `qp.Competence.nomCen` selon la langue
+            nom: qp.Personnel.nomP,
+            prenom: qp.Personnel.prenomP,
+            competence: qp.Competence.nomCfr, // ou qp.Competence.nomCen
+            aptitude: qp.aptitude // "confirmé" ou "novice"
         }));
 
         res.status(200).json(recommendedPersonnel);
     } catch (error) {
         console.error("Erreur lors de la recommandation :", error);
-        next(error); // Utilisation de NextFunction pour une meilleure gestion des erreurs
+        next(error);
+    }
+};
+
+export const addPersonnelToMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { idM, idP } = req.body;
+
+        const mission = await Missions.findByPk(idM);
+        const personnel = await Personnel.findByPk(idP);
+
+        if (!mission || !personnel) {
+            res.status(404).json({ message: "Mission ou personnel introuvable" });
+            return;
+        }
+
+        // Vérifier si le personnel est déjà affecté à cette mission
+        const existingAssignment = await Executer.findOne({
+            where: { idM, idP }
+        });
+
+        if (existingAssignment) {
+            res.status(400).json({ message: "Ce personnel est déjà assigné à cette mission." });
+            return;
+        }
+
+        // Ajouter l'entrée dans la table "Executer" avec une date de début
+        await Executer.create({ idM, idP, dateDebutE: new Date() });
+
+        res.status(200).json({ message: "Personnel ajouté à la mission avec succès !" });
+    } catch (error) {
+        console.error("Erreur lors de l'ajout du personnel à la mission :", error);
+        next(error);
+    }
+};
+
+
+export const assignPersonnelToMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { idM, idP } = req.body;
+
+        const mission = await Missions.findByPk(idM);
+        const personnel = await Personnel.findByPk(idP);
+        if (!mission || !personnel) {
+            res.status(404).json({ message: "Mission ou personnel introuvable" });
+            return;
+        }
+
+        const alreadyAssigned = await Executer.findOne({ where: { idM, idP } });
+        if (alreadyAssigned) {
+            res.status(400).json({ message: "Le personnel est déjà assigné à cette mission" });
+            return;
+        }
+
+        // Assigner avec une date de début
+        await Executer.create({ idM, idP, dateDebutE: new Date() });
+
+        res.status(201).json({ message: "Personnel assigné avec succès" });
+    } catch (error) {
+        console.error("Erreur lors de l'assignation du personnel :", error);
+        next(error);
     }
 };

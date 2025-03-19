@@ -8,7 +8,7 @@ export interface Missions {
   descriptionM: string;
   dateDebutM: Date;
   dateFinM: Date;
-  statutM: 'en préparation' | 'planifiée' | 'en cours' | 'terminée';
+  statutM: 'en préparation' | 'planifiée' | 'en cours' | 'terminée' | string; // Ajout de | string
   anomalieM: string;
 }
 
@@ -52,5 +52,4 @@ export class MissionsService {
   getRecommendedPersonnel(missionId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${missionId}/recommendations`);
   }
-  
 }

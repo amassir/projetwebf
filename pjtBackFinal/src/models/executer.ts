@@ -33,6 +33,7 @@ Executer.init({
         dateDebutE: {
             type: DataTypes.DATE,
             allowNull: false,
+            defaultValue: DataTypes.NOW, // Ajoute la date actuelle par défaut
         },},
     {
         sequelize,

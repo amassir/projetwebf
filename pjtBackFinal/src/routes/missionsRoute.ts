@@ -7,7 +7,8 @@ import {
     deleteMission, 
     updateMission, 
     getMissionById, 
-    recommendPersonnelForMission
+    recommendPersonnelForMission,
+    getPersonnelByMission
 } from '../controllers/missionsController';
 
 const router = Router();
@@ -19,6 +20,7 @@ router.post('/missions/:id/competences', addCompetenceToMission);
 router.post('/missions/:id/personnels', addPersonnelToMission);
 router.put('/missions/:id', updateMission);
 router.delete('/missions/:id', deleteMission);
+router.get('/missions/:id/personnels', getPersonnelByMission);
 
 // ✅ Assure-toi que cette route est correcte
 router.get('/missions/:id/recommendations', recommendPersonnelForMission);

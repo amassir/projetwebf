@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 export interface Personnel {
   idP: number;
   prenomP: string;
@@ -18,7 +17,7 @@ export interface Personnel {
 export class PersonnelService {
   
   private apiUrl1 = "http://localhost:3000/api/personnel";
-  private apiUrl2 = 'http://localhost:3000/api/missions'; 
+  private apiUrl2 = "http://localhost:3000/api/missions";
 
   constructor(private http: HttpClient) {}
 
@@ -38,19 +37,19 @@ export class PersonnelService {
     return this.http.delete<any>(`${this.apiUrl1}/${id}`);
   }
 
-  getPersonnelByMission(idM: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl2}/${idM}/personnel`);
+  getPersonnelByMission(idM: number): Observable<Personnel[]> {
+    return this.http.get<Personnel[]>(`${this.apiUrl2}/${idM}/personnels`);
   }
 
-  getPersonnelById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl1}/${id}`);
+  getPersonnelById(id: string): Observable<Personnel> {
+    return this.http.get<Personnel>(`${this.apiUrl1}/${id}`);
   }
 
   validatePersonnelRecommendations(missionId: number, recommendedPersonnels: any[]): Observable<any> {
     return this.http.post<any>(`${this.apiUrl2}/${missionId}/validate`, recommendedPersonnels);
   }
 
-  getPersonnelByCompetence(idC: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl1}/competence/${idC}`);
+  getPersonnelByCompetence(idC: string): Observable<Personnel[]> {
+    return this.http.get<Personnel[]>(`${this.apiUrl1}/competence/${idC}`);
   }
 }
