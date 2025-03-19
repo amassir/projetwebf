@@ -1,67 +1,84 @@
 <div class="container mt-4">
-  <div class="card">
-    <h1>Enregistrement d'une mission</h1>
+  <div class="card p-4 shadow-lg" style="max-width: 800px; margin: auto;">
+    <h2 class="text-center text-primary">Enregistrement d'une Mission</h2>
     <form>
-      <div class="form-group">
-        <label>Nom de la mission</label>
-        <input type="text" [(ngModel)]="nomM" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Entrer le nom">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label class="fw-bold">Nom de la mission</label>
+            <input type="text" [(ngModel)]="nomM" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Nom de la mission">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label class="fw-bold">Description</label>
+            <input type="text" [(ngModel)]="descriptionM" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Description">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label class="fw-bold">Date de début</label>
+            <input type="date" [(ngModel)]="dateDebutM" [ngModelOptions]="{standalone: true}" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label class="fw-bold">Date de fin</label>
+            <input type="date" [(ngModel)]="dateFinM" [ngModelOptions]="{standalone: true}" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group mb-3">
+            <label class="fw-bold">Anomalie</label>
+            <input type="text" [(ngModel)]="anomalieM" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Anomalie">
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Description</label>
-        <input type="text" [(ngModel)]="descriptionM" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Entrer la description">
-      </div>
-      <div class="form-group">
-        <label>Date de début</label>
-        <input type="date" [(ngModel)]="dateDebutM" [ngModelOptions]="{standalone: true}" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Date de fin</label>
-        <input type="date" [(ngModel)]="dateFinM" [ngModelOptions]="{standalone: true}" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Anomalie</label>
-        <input type="text" [(ngModel)]="anomalieM" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Entrer l'anomalie">
-      </div>
-      <button type="button" class="btn btn-primary mt-4" (click)="save()">Enregistrer</button>
+      <button type="button" class="btn btn-primary w-100 mt-3 py-2" (click)="save()">Enregistrer</button>
     </form>
   </div>
 
-  <div class="container mt-4">
-    <h1>Table des Missions</h1>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nom</th>
-          <th>Description</th>
-          <th>Date début</th>
-          <th>Date fin</th>
-          <th>Statut</th>
-          <th>Anomalie</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let mission of missionsArray">
-          <td>{{ mission.idM }}</td>
-          <td>{{ mission.nomM }}</td>
-          <td>{{ mission.descriptionM }}</td>
-          <td>{{ mission.dateDebutM }}</td>
-          <td>{{ mission.dateFinM }}</td>
-          <td>{{ mission.statutM }}</td>
-          <td>{{ mission.anomalieM }}</td>
-          <td>
-            <div class="d-flex">
-              <button class="btn btn-info me-2" (click)="openCompetencesModal(mission)">Compétences</button>
-            <button class="btn btn-secondary me-2" (click)="openPersonnelModal(mission)">Personnels</button>
-            <button class="btn btn-success me-2" (click)="openAddCompetencesModal(mission)">Ajouter Compétences</button>
-            <button class="btn btn-warning me-2" (click)="openAddPersonnelModal(mission)">Ajouter Personnel</button>
-            <button class="btn btn-danger me-2" (click)="setDelete(mission)">Supprimer</button>
-            <button class="btn btn-primary" (click)="openPersonnelRecommendationModal(mission)">Recommander Personnel</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="card mt-5 p-4 shadow-lg">
+    <h2 class="text-center text-primary">Table des Missions</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Date début</th>
+            <th>Date fin</th>
+            <th>Statut</th>
+            <th>Anomalie</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mission of missionsArray">
+            <td>{{ mission.idM }}</td>
+            <td>{{ mission.nomM }}</td>
+            <td>{{ mission.descriptionM }}</td>
+            <td>{{ mission.dateDebutM }}</td>
+            <td>{{ mission.dateFinM }}</td>
+            <td>{{ mission.statutM }}</td>
+            <td>{{ mission.anomalieM }}</td>
+            <td>
+              <div class="d-grid gap-1">
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-info btn-sm w-50">Compétences</button>
+                  <button class="btn btn-secondary btn-sm w-50">Personnels</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-success btn-sm w-50">Ajouter Comp.</button>
+                  <button class="btn btn-danger btn-sm w-50">Supprimer</button>
+                </div>
+                <button class="btn btn-primary btn-sm w-100">Recommander</button>
+              </div>
+            </td>            
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
