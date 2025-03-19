@@ -51,14 +51,18 @@
           <td>{{ mission.statutM }}</td>
           <td>{{ mission.anomalieM }}</td>
           <td>
-            <div class="d-flex flex-wrap gap-1" style="width: 100%;">
+            <div class="d-flex justify-content-between gap-1 flex-nowrap mb-1" style="width: 100%;">
               <button class="btn btn-info btn-sm" (click)="openCompetencesModal(mission)">Compétences</button>
               <button class="btn btn-secondary btn-sm" (click)="openPersonnelModal(mission)">Personnels</button>
-              <button class="btn btn-success btn-sm" (click)="openAddCompetencesModal(mission)">Ajouter Comp.</button>
+            </div>      
+            <div class="d-flex justify-content-between gap-1 flex-nowrap mb-1" style="width: 100%;">
+              <button class="btn btn-success btn-sm" (click)="openAddCompetencesModal(mission)">Ajout Comp.</button>
               <button class="btn btn-danger btn-sm" (click)="setDelete(mission)">Supprimer</button>
+            </div>
+            <div class="d-flex justify-content-between gap-1 flex-nowrap" style="width: 100%;">
               <button class="btn btn-primary btn-sm" (click)="openPersonnelRecommendationModal(mission)">Recommander</button>
             </div>
-          </td>          
+          </td>             
         </tr>
       </tbody>
     </table>
