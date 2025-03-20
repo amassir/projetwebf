@@ -1,20 +1,38 @@
 <nav class="navbar-expand-md border-bottom mb-3">
     <div class="container">
         <ul class="nav justify-content-center">
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isLoggedIn()">
                 <a class="nav-link text-secondary" routerLink="/home" routerLinkActive="text-dark">
                     Accueil
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isLoggedIn()">
                 <a class="nav-link text-secondary" routerLink="/personnel" routerLinkActive="text-dark">
                     Personnels
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isLoggedIn()">
                 <a class="nav-link text-secondary" routerLink="/missions" routerLinkActive="text-dark">
                     Missions
                 </a>
+            </li>
+            <li class="nav-item" *ngIf="isLoggedIn()">
+                <a class="nav-link text-secondary" routerLink="/forum" routerLinkActive="text-dark">
+                    Forum
+                </a>
+            </li>
+            <li class="nav-item" *ngIf="!isLoggedIn()">
+                <a class="nav-link text-secondary" routerLink="/register" routerLinkActive="text-dark">
+                    Inscription
+                </a>
+            </li>
+            <li class="nav-item" *ngIf="!isLoggedIn()">
+                <a class="nav-link text-secondary" routerLink="/login" routerLinkActive="text-dark">
+                    Connexion
+                </a>
+            </li>
+            <li class="nav-item" *ngIf="isLoggedIn()">
+                <a class="nav-link text-secondary" (click)="logout()">Déconnexion</a>
             </li>
         </ul>
     </div>

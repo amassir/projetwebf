@@ -16,7 +16,10 @@ import { MissionsComponent } from './missions/missions.component';
 import { PersonnelRecommendationComponent} from './personnel-recommendation/personnel-recommendation.component';
 import { AddCompetencesModalComponent } from './add-competences-modal/add-competences-modal.component';
 import { AddPersonnelModalComponent } from './add-personnel-modal/add-personnel-modal.component';
-import { PersonnelModalComponent } from './personnel-modal/personnel-modal.component';    
+import { PersonnelModalComponent } from './personnel-modal/personnel-modal.component';
+import { ForumComponent } from './forum/forum.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';    
 
 @NgModule({
   declarations: [
@@ -27,7 +30,13 @@ import { PersonnelModalComponent } from './personnel-modal/personnel-modal.compo
     PersonnelComponent,
     CompetencesModalComponent,
     MissionsComponent, 
-    PersonnelRecommendationComponent, AddCompetencesModalComponent, AddPersonnelModalComponent, PersonnelModalComponent 
+    PersonnelRecommendationComponent, 
+    AddCompetencesModalComponent, 
+    AddPersonnelModalComponent, 
+    PersonnelModalComponent, 
+    ForumComponent, 
+    RegisterComponent, 
+    LoginComponent 
   ],
   imports: [
     BrowserModule,
