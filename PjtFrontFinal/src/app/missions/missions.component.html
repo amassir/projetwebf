@@ -1,28 +1,41 @@
 <div class="container mt-4">
-  <div class="card">
-    <h1>Enregistrement d'une mission</h1>
+  <!-- Formulaire d'enregistrement -->
+  <div class="card p-4 shadow-sm" style="max-width: 900px; margin: auto;">
+    <h2 class="text-center text-primary mb-4">Enregistrement d'une Mission</h2>
     <form>
-      <div class="form-group">
-        <label>Nom de la mission</label>
-        <input type="text" [(ngModel)]="nomM" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Entrer le nom">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label class="fw-bold">Nom de la mission</label>
+            <input type="text" class="form-control" placeholder="Nom de la mission" [(ngModel)]="nomM" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label class="fw-bold">Description</label>
+            <input type="text" class="form-control" placeholder="Description" [(ngModel)]="descriptionM" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label class="fw-bold">Date de début</label>
+            <input type="date" class="form-control" [(ngModel)]="dateDebutM" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label class="fw-bold">Date de fin</label>
+            <input type="date" class="form-control" [(ngModel)]="dateFinM" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group mb-3">
+            <label class="fw-bold">Anomalie</label>
+            <input type="text" class="form-control" placeholder="Anomalie" [(ngModel)]="anomalieM" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Description</label>
-        <input type="text" [(ngModel)]="descriptionM" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Entrer la description">
-      </div>
-      <div class="form-group">
-        <label>Date de début</label>
-        <input type="date" [(ngModel)]="dateDebutM" [ngModelOptions]="{standalone: true}" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Date de fin</label>
-        <input type="date" [(ngModel)]="dateFinM" [ngModelOptions]="{standalone: true}" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Anomalie</label>
-        <input type="text" [(ngModel)]="anomalieM" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Entrer l'anomalie">
-      </div>
-      <button type="button" class="btn btn-primary mt-4" (click)="save()">Enregistrer</button>
+      <button type="button" class="btn btn-primary w-100 mt-3 p-2" (click)="save()">Enregistrer</button>
     </form>
   </div>
 
@@ -68,3 +81,5 @@
     </table>
   </div>
 </div>
+
+
