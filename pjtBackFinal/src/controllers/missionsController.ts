@@ -128,17 +128,77 @@ export const deleteMission = async (req: Request, res: Response, next: NextFunct
 // ✅ Ajouter une compétence à une mission
 export const addCompetenceToMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const { id } = req.params;
-        const { idC, statutC } = req.body;
+        const { id } = req.params; // ID de la mission
+        const { idC, statutC } = req.body; // ID de la compétence et son statut
 
-        const newCaracteriser = await Caracteriser.create({
-            idM: id,
-            idC,
-            statutC
+        // S'assurer que idC est bien une chaîne de caractères
+        const idCStr = String(idC);
+
+        // Vérifier si la mission existe
+        const mission = await Missions.findByPk(id);
+        if (!mission) {
+            res.status(404).json({ error: "Mission non trouvée" });
+            return;
+        }
+
+        // Vérifier si la compétence existe
+        const competence = await Competences.findByPk(idCStr);
+        if (!competence) {
+            res.status(404).json({ error: "Compétence non trouvée" });
+            return;
+        }
+
+        // Vérifier si la compétence est déjà associée à la mission
+        const existingRelation = await Caracteriser.findOne({
+            where: { idM: id, idC: idCStr }
         });
 
-        res.status(201).json(newCaracteriser);
+        if (existingRelation) {
+            res.status(400).json({ error: "Cette compétence est déjà associée à cette mission" });
+            return;
+        }
+
+        // Vérifier que statutC est une valeur valide
+        const validStatuts = ["satisfait", "non satisfait"];
+        const statutValide = validStatuts.includes(statutC) ? statutC : "non satisfait"; // Par défaut, "non satisfait"
+
+        // Ajouter la compétence à la mission
+        const newCaracteriser = await Caracteriser.create({
+            idM: id,
+            idC: idCStr,
+            statutC: statutValide // Assurer une valeur correcte
+        });
+
+        res.status(201).json({ message: "Compétence ajoutée avec succès à la mission", data: newCaracteriser });
+
     } catch (error) {
+        console.error("Erreur lors de l'ajout de la compétence à la mission :", error);
+        next(error);
+    }
+};
+
+
+
+export const removeCompetenceFromMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { id, idC } = req.params;
+
+        // Vérifier si l'association existe
+        const association = await Caracteriser.findOne({
+            where: { idM: id, idC }
+        });
+
+        if (!association) {
+            res.status(404).json({ message: "L'association entre la mission et la compétence n'existe pas." });
+            return;
+        }
+
+        // Supprimer l'association
+        await association.destroy();
+        res.status(200).json({ message: "Compétence dissociée avec succès." });
+
+    } catch (error) {
+        console.error("Erreur lors de la suppression de la compétence de la mission :", error);
         next(error);
     }
 };

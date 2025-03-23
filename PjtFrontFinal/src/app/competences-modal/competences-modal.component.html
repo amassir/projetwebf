@@ -10,19 +10,42 @@
     <p>Chargement des compétences...</p>
   </div>
 
-  <!-- Liste des compétences -->
+  <!-- Liste des compétences associées -->
   <ng-container *ngIf="!isLoading">
-    <ul *ngIf="competences.length > 0; else noCompetences" class="list-group">
-      <li *ngFor="let competence of competences" class="list-group-item">
-        {{ competence.nomCfr }} - 
-        <strong *ngIf="personnel">{{ competence.aptitude }}</strong>
-        <strong *ngIf="mission">{{ competence.statutC }}</strong>
+    <ul *ngIf="competencesMission.length > 0; else noCompetences" class="list-group">
+      <li *ngFor="let competence of competencesMission" class="list-group-item d-flex justify-content-between align-items-center">
+        <span>
+          {{ competence.nomCfr }}
+          <strong *ngIf="personnel">{{ competence.aptitude }}</strong>
+        </span>
+
+        <!-- Bouton Supprimer -->
+        <button *ngIf="mission" class="btn btn-danger btn-sm" (click)="dissocierCompetence(competence.idC)">
+          Supprimer
+        </button>
       </li>
     </ul>
   </ng-container>
 
-  <!-- Message si aucune compétence disponible -->
+  <!-- Message si aucune compétence associée -->
   <ng-template #noCompetences>
-    <p class="text-muted text-center">Aucune compétence disponible.</p>
+    <p class="text-muted text-center">Aucune compétence associée.</p>
   </ng-template>
+</div>
+
+<!-- Ajout du menu déroulant et du bouton "Ajouter" -->
+<div class="modal-footer">
+  <label for="competence-select">Ajouter une compétence :</label>
+  <select id="competence-select" class="form-select" [(ngModel)]="selectedCompetence" (change)="errorMessage = ''">
+    <option *ngFor="let comp of allCompetences" [value]="comp.idC">
+      {{ comp.nomCfr }}
+    </option>
+  </select>
+
+  <button class="btn btn-primary" (click)="ajouterCompetence()" [disabled]="!selectedCompetence">
+    Ajouter
+  </button>
+
+  <!-- Message d'erreur si la compétence est déjà associée -->
+  <p *ngIf="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
 </div>

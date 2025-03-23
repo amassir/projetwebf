@@ -63,7 +63,9 @@ export const getCompetencesByMission = async (req: Request, res: Response) => {
             idC: record.Competence.idC,
             nomCfr: record.Competence.nomCfr,
             nomCen: record.Competence.nomCen,
-            statutC: record.statutC
+            statutC: record.statutC === 'non satisfait' || record.statutC === 'satisfait' 
+                      ? record.statutC 
+                      : 'non satisfait' // Valeur par défaut si incorrecte
         }));
 
         res.status(200).json(competences);
@@ -72,6 +74,7 @@ export const getCompetencesByMission = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Erreur lors de la récupération des données des compétences" });
     }
 };
+
 
 
 
