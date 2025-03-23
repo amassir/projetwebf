@@ -14,7 +14,9 @@ import { PersonnelRecommendationComponent } from '../personnel-recommendation/pe
   styleUrls: ['./missions.component.css']
 })
 export class MissionsComponent implements OnInit {
-  missionsArray: any[] = [];
+  idMission = "";
+  isUpdateFormActive = false;
+  missionsArray: any[] = []; 
   isResultLoaded = false;
   bsModalRef?: BsModalRef;
 
@@ -29,6 +31,16 @@ export class MissionsComponent implements OnInit {
   ngOnInit(): void {
     this.getMissions();
   }
+
+  setUpdate(mission: any) {
+    this.nomM = mission.nomM;
+    this.descriptionM = mission.descriptionM;
+    this.dateDebutM = mission.dateDebutM;
+    this.dateFinM = mission.dateFinM;
+    this.anomalieM = mission.anomalieM;
+    this.idMission = mission.idM;
+    this.isUpdateFormActive = true;
+  }  
 
   getMissions() {
     this.missionsService.getMissions().subscribe({
@@ -53,17 +65,36 @@ export class MissionsComponent implements OnInit {
       anomalieM: this.anomalieM
     };
 
-    this.missionsService.addMission(missionData).subscribe({
-      next: () => {
-        alert("✅ Mission ajoutée avec succès !");
-        this.getMissions();
-      },
-      error: (err) => {
-        console.error("❌ Erreur lors de l'ajout de la mission :", err);
-        alert("Erreur lors de l'ajout de la mission.");
-      }
-    });
+    if (this.idMission) {
+      // Mode modification
+      this.missionsService.updateMission(Number(this.idMission), missionData).subscribe({
+        next: () => {
+          alert("✅ Mission mise à jour avec succès !");
+          this.getMissions();
+          this.isUpdateFormActive = true; // Rester en mode modification
+        },
+        error: (err) => {
+          console.error("❌ Erreur lors de la mise à jour :", err);
+          alert("Erreur lors de la mise à jour.");
+        }
+      });
+    } else {
+      // Mode ajout
+      this.missionsService.addMission(missionData).subscribe({
+        next: () => {
+          alert("✅ Mission ajoutée avec succès !");
+          this.getMissions();
+          this.isUpdateFormActive = false; // Revenir en mode ajout
+        },
+        error: (err) => {
+          console.error("❌ Erreur lors de l'ajout :", err);
+          alert("Erreur lors de l'ajout.");
+        }
+      });
+    }
   }
+
+  
 
   setDelete(mission: any) {
     if (!mission.idM) {

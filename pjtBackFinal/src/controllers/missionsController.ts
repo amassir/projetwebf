@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 import Missions from '../models/missions';
 import Caracteriser from '../models/caracteriser';
 import Executer from '../models/executer';
@@ -89,25 +89,36 @@ export const addMission = async (req: Request, res: Response, next: NextFunction
     }
 };
 
-// ✅ Modifier le statut d'une mission
-export const updateMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
+export const updateMission = async (req: Request, res: Response): Promise<void> => {
     try {
         const { id } = req.params;
-        const { statutM } = req.body;
+        const { nomM, descriptionM, dateDebutM, dateFinM, statutM, anomalieM } = req.body;
 
         const mission = await Missions.findByPk(id);
-        if (mission) {
-            if (statutM) mission.statutM = statutM;
 
-            await mission.save();
-            res.status(200).json(mission);
-        } else {
+        if (!mission) {
             res.status(404).json({ error: "Mission non trouvée" });
+            return;
         }
+
+        if (nomM) mission.nomM = nomM;
+        if (descriptionM) mission.descriptionM = descriptionM;
+        if (dateDebutM) mission.dateDebutM = new Date(dateDebutM);
+        if (dateFinM) mission.dateFinM = new Date(dateFinM);
+        if (statutM) mission.statutM = statutM;
+        if (anomalieM) mission.anomalieM = anomalieM;
+
+        await mission.save();
+
+        res.status(200).json(mission);
     } catch (error) {
-        next(error);
+        console.error("Erreur lors de la mise à jour de la mission :", error);
+        res.status(500).json({ error: "Erreur lors de la mise à jour de la mission" });
     }
 };
+
+
 
 // ✅ Supprimer une mission
 export const deleteMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

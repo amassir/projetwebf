@@ -120,7 +120,7 @@ export const updatePersonnel = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Erreur lors de la mise à jour du personnel" });
     }
 };
-
+ 
 // Validation des recommandations de personnels pour une mission
 export const validatePersonnelRecommendations = async (req: Request, res: Response) => {
     try {
