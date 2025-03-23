@@ -39,6 +39,16 @@ export class CompetencesService {
     return this.http.get<Competences[]>(`${this.apiPersonnel}/${idP}/competences`);
   }
 
+  // Associer une compétence à un personnel
+  ajouterCompetencePersonnel(idP: number, idC: string): Observable<any> {
+    return this.http.post<any>(`${this.apiPersonnel}/${idP}/competences`, { idC });
+  } 
+
+  // Dissocier une compétence d'un personnel
+  dissocierCompetencePersonnel(idP: number, idC: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiPersonnel}/${idP}/competences/${idC}`);
+  }
+
   // Associer une compétence à une mission (avec vérification)
   ajouterCompetenceMission(idM: number, idC: string): Observable<any> {
     return this.http.post<any>(`${this.apiMissions}/${idM}/competences`, { idC });

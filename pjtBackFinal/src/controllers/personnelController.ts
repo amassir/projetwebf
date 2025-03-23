@@ -1,9 +1,10 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import Personnel from '../models/personnel';
 import Executer from '../models/executer';
 import Missions from '../models/missions';
 import Caracteriser from '../models/caracteriser';
 import Disposer from '../models/disposer';
+import Competences from '../models/competences';
 
 // Récupération de tous les personnels
 export const getPersonnel = async (req: Request, res: Response) => {
@@ -170,5 +171,81 @@ export const deletePersonnel = async (req: Request, res: Response) => {
         }
     } catch (error) {
         res.status(500).json({ error: "Erreur lors de la suppression d'un personnel" });
+    }
+};
+
+export const addCompetenceToPersonnel = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { id } = req.params; // ID du personnel
+        const { idC, aptitude } = req.body; // ID de la compétence et son niveau
+
+        // S'assurer que idC est bien une chaîne de caractères
+        const idCStr = String(idC);
+
+        // Vérifier si le personnel existe
+        const personnel = await Personnel.findByPk(id);
+        if (!personnel) {
+            res.status(404).json({ error: "Personnel non trouvé" });
+            return;
+        }
+
+        // Vérifier si la compétence existe
+        const competence = await Competences.findByPk(idCStr);
+        if (!competence) {
+            res.status(404).json({ error: "Compétence non trouvée" });
+            return;
+        }
+
+        // Vérifier si la compétence est déjà associée au personnel
+        const existingRelation = await Disposer.findOne({
+            where: { idP: id, idC: idCStr }
+        });
+
+        if (existingRelation) {
+            res.status(400).json({ error: "Cette compétence est déjà associée à ce personnel" });
+            return;
+        }
+
+        // Vérifier que aptitude est une valeur valide
+        const validAptitudes = ["novice", "confirmé"];
+        const aptitudeValide = validAptitudes.includes(aptitude) ? aptitude : "novice"; // Par défaut, "novice"
+
+        // Ajouter la compétence au personnel
+        const newDisposer = await Disposer.create({
+            idP: id,
+            idC: idCStr,
+            aptitude: aptitudeValide // Assurer une valeur correcte
+        });
+
+        res.status(201).json({ message: "Compétence ajoutée avec succès au personnel", data: newDisposer });
+
+    } catch (error) {
+        console.error("Erreur lors de l'ajout de la compétence au personnel :", error);
+        next(error);
+    }
+};
+
+
+export const removeCompetenceFromPersonnel = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { id, idC } = req.params;
+
+        // Vérifier si l'association existe
+        const association = await Disposer.findOne({
+            where: { idP: id, idC }
+        });
+
+        if (!association) {
+            res.status(404).json({ message: "L'association entre le personnel et la compétence n'existe pas." });
+            return;
+        }
+
+        // Supprimer l'association
+        await association.destroy();
+        res.status(200).json({ message: "Compétence dissociée avec succès du personnel." });
+
+    } catch (error) {
+        console.error("Erreur lors de la suppression de la compétence du personnel :", error);
+        next(error);
     }
 };

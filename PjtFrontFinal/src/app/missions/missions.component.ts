@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MissionsService } from '../services/missions.service';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
-import { CompetencesModalComponent } from '../competences-modal/competences-modal.component';
+import { CompetencesModalMissionComponent } from '../competences-modal-mission/competences-modal-mission.component';
 import { AddCompetencesModalComponent } from '../add-competences-modal/add-competences-modal.component';
 import { AddPersonnelModalComponent } from '../add-personnel-modal/add-personnel-modal.component';
 import { PersonnelModalComponent } from '../personnel-modal/personnel-modal.component';
@@ -96,7 +96,7 @@ export class MissionsComponent implements OnInit {
       class: "modal-lg",
       initialState: { mission }
     };
-    this.bsModalRef = this.modalService.show(CompetencesModalComponent, modalOptions);
+    this.bsModalRef = this.modalService.show(CompetencesModalMissionComponent, modalOptions);
   }
 
   openAddCompetencesModal(mission: any) {

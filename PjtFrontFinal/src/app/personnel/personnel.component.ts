@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PersonnelService, Personnel } from '../services/personnel.service';
+import { PersonnelService} from '../services/personnel.service';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
-import { CompetencesModalComponent } from '../competences-modal/competences-modal.component';
+import { CompetencesModalPersonnelComponent } from '../competences-modal-personnel/competences-modal-personnel.component';
 
 @Component({
   selector: 'app-personnel',
@@ -111,6 +111,6 @@ export class PersonnelComponent implements OnInit {
         personnel: personnel
       }
     };
-    this.bsModalRef = this.modalService.show(CompetencesModalComponent, modalOptions);
+    this.bsModalRef = this.modalService.show(CompetencesModalPersonnelComponent, modalOptions);
   }
 }
