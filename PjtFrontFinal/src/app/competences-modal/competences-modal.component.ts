@@ -15,6 +15,7 @@ export class CompetencesModalComponent implements OnInit {
   @Input() mission?: Missions;
   competencesMission: Competences[] = []; // Compétences associées à la mission
   allCompetences: Competences[] = []; // Toutes les compétences disponibles
+  competences: any[] = [];
   selectedCompetence?: string;
   errorMessage: string = ""; // Message d'erreur
   isLoading = true;
@@ -25,7 +26,22 @@ export class CompetencesModalComponent implements OnInit {
     if (this.mission?.idM) {
       this.fetchCompetencesMission();
       this.fetchAllCompetences();
+    } else if (this.personnel?.idP) {
+      this.fetchCompetencesPersonnel();
     }
+  }
+
+  fetchCompetencesPersonnel() {
+    this.competenceService.getCompetencesByPersonnel(this.personnel!.idP).subscribe({
+      next: (data) => {
+        this.competences = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des compétences du personnel :', err);
+        this.isLoading = false;
+      }
+    });
   }
 
   fetchCompetencesMission() {
