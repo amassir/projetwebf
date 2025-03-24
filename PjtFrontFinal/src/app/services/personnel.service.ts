@@ -52,4 +52,9 @@ export class PersonnelService {
   getPersonnelByCompetence(idC: string): Observable<Personnel[]> {
     return this.http.get<Personnel[]>(`${this.apiUrl1}/competence/${idC}`);
   }
+
+  supprimerPersonnelDeMission(idM: number, idP: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl2}/${idM}/personnels/${idP}`);
+  }
+  
 }

@@ -44,4 +44,18 @@ export class PersonnelModalComponent implements OnInit {
     });
   }  
   
+  supprimerPersonnel(idP: string) {
+    if (!this.mission?.idM) return;
+  
+    this.personnelService.supprimerPersonnelDeMission(this.mission.idM, Number(idP)).subscribe({
+      next: () => {
+        // Mettre à jour la liste après suppression
+        this.personnels = this.personnels.filter(p => p.idP !== Number(idP));
+      },
+      error: (err) => {
+        console.error("Erreur suppression personnel:", err);
+      }
+    });
+  }
+
 }

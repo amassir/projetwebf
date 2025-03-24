@@ -214,6 +214,30 @@ export const removeCompetenceFromMission = async (req: Request, res: Response, n
     }
 };
 
+export const removePersonnelFromMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { id, idP } = req.params;
+
+        // Vérifier si l'association existe
+        const association = await Executer.findOne({
+            where: { idM: id, idP }
+        });
+
+        if (!association) {
+            res.status(404).json({ message: "L'association entre la mission et le personnel n'existe pas." });
+            return;
+        }
+
+        // Supprimer l'association
+        await association.destroy();
+        res.status(200).json({ message: "Personnel dissocié avec succès." });
+
+    } catch (error) {
+        console.error("Erreur lors de la suppression du personnel de la mission :", error);
+        next(error);
+    }
+};
+
 export const recommendPersonnelForMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
