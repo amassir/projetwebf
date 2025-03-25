@@ -1,5 +1,7 @@
 import { Router } from 'express';
-import { getMissions, addMission, addCompetenceToMission, addPersonnelToMission, deleteMission, getMissionById, recommendPersonnelForMission, getPersonnelByMission, removeCompetenceFromMission, updateMission, removePersonnelFromMission } from '../controllers/missionsController';
+import { getMissions, addMission, addCompetenceToMission, updateMissionStatut,addPersonnelToMission, deleteMission, getMissionById, recommendPersonnelForMission, getPersonnelByMission, removeCompetenceFromMission, updateMission, removePersonnelFromMission } from '../controllers/missionsController';
+
+
 
 // Initialisation du router
 const router = Router();
@@ -13,6 +15,9 @@ router.get('/missions/:id', getMissionById);
 
 // Route pour récupérer tous les personnels d'une mission
 router.get('/missions/:id/personnels', getPersonnelByMission);
+
+// Route pour mettre à jour le statut d'une mission
+router.put('/missions/:id', updateMissionStatut);
 
 // Route pour recommander du personnel pour une mission
 router.get('/missions/:id/recommendations', recommendPersonnelForMission);
