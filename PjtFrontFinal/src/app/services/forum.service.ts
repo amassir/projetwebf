@@ -6,6 +6,8 @@ export interface Forum {
     idF: number;
     titreF: string;
     contenuF: string;
+    votesPositifs: number;
+    votesNegatifs: number;
     idU: number; 
   }
 
@@ -13,27 +15,26 @@ export interface Forum {
   providedIn: 'root'
 })
 export class ForumService {
-  private apiUrl = 'http://localhost:3000/api/forum';
+  private apiUrl = 'http://localhost:3000/api/forums';
 
   constructor(private http: HttpClient) {}
 
-  getDiscussions(): Observable<any[]> {
+  // Récupérer tous les forums
+  getForums(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  addDiscussion(discussion: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, discussion);
+  // Créer un nouveau forum
+  createForum(forum: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, forum);
   }
 
-  getDiscussionById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  // Récupérer les commentaires d'un forum
+  getCommentsByForum(forumId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${forumId}/comments`);
   }
 
-  addCommentaire(commentaire: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/${commentaire.idF}/commentaire`, commentaire);
-  }
-
-  voteDiscussion(id: number, voteType: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/${id}/vote/${voteType}`, {});
+  createComment(forumId: number, comment: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${forumId}/comments`, comment);
   }
 }

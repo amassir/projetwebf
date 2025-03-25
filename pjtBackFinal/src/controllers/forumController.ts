@@ -1,96 +1,77 @@
 import { Request, Response } from 'express';
 import Forum from '../models/forum';
-import Utilisateur from '../models/utilisateur';
 import Commentaire from '../models/commentaire';
+import Utilisateur from '../models/utilisateur';
 
 type T = any;
 
-// Récupérer toutes les discussions
-export const getDiscussions = async (req: Request, res: Response) => {
+// Créer un forum
+export const createForum = async (req: Request, res: Response): Promise<T> => {
     try {
-        const discussions = await Forum.findAll({
-            include: [
-                { model: Utilisateur, attributes: ['prenomU', 'nomU'] },
-                { model: Commentaire, include: [{ model: Utilisateur, attributes: ['prenomU', 'nomU'] }] }
-            ],
-        });
-        res.status(200).json(discussions);
-    } catch (error) {
-        res.status(500).json({ error: "Erreur lors de la récupération des discussions" });
-    }
-};
+        const { titreF, contenuF, idU } = req.body;
 
-// Ajouter une nouvelle discussion
-export const addDiscussion = async (req: Request, res: Response): Promise<T> => {
-    try {
-        const { titreF, contenuF, idU} = req.body;
-        const votesPositifs  = 0;
-        const votesNegatifs = 0;
-        if (!titreF || !contenuF || !idU) {
-            return res.status(400).json({ error: "Tous les champs sont requis" });
+        // Vérifier que l'utilisateur existe
+        const user = await Utilisateur.findByPk(idU);
+        if (!user) {
+            return res.status(404).json({ error: "Utilisateur non trouvé." });
         }
-        const newDiscussion = await Forum.create({ 
-            titreF, 
-            contenuF,
-            votesPositifs,
-            votesNegatifs, 
-            idU });
-        res.status(201).json(newDiscussion);
+
+        // Créer le forum
+        const forum = await Forum.create({ titreF, contenuF, idU });
+        res.status(201).json(forum);
     } catch (error) {
-        res.status(500).json({ error: "Erreur lors de l'ajout de la discussion" });
+        console.error('Erreur lors de la création du forum :', error);
+        res.status(500).json({ error: "Erreur lors de la création du forum." });
     }
 };
 
-// Récupérer une discussion par ID
-export const getDiscussionById = async (req: Request, res: Response) => {
+// Récupérer tous les forums
+export const getForums = async (req: Request, res: Response) => {
     try {
+        const forums = await Forum.findAll({
+            include: [{ model: Utilisateur, as: 'Utilisateur' }], 
+        });
+        res.status(200).json(forums);
+    } catch (error) {
+        console.error('Erreur lors de la récupération des forums :', error);
+        res.status(500).json({ error: "Erreur lors de la récupération des forums." });
+    }
+};
+
+// Créer un commentaire
+export const createComment = async (req: Request, res: Response): Promise<T> => {
+    try {
+        const { contenuC, idU } = req.body;
         const { id } = req.params;
-        const discussion = await Forum.findByPk(id, {
-            include: [{ model: Utilisateur, attributes: ['prenomU', 'nomU'] }],
+
+        // Vérifier que le forum existe
+        const forum = await Forum.findByPk(id);
+        if (!forum) {
+            return res.status(404).json({ error: "Forum non trouvé." });
+        }
+
+        // Créer le commentaire
+        const commentaire = await Commentaire.create({ contenuC, idF: id, idU });
+        res.status(201).json(commentaire);
+    } catch (error) {
+        console.error('Erreur lors de la création du commentaire :', error);
+        res.status(500).json({ error: "Erreur lors de la création du commentaire." });
+    }
+};
+
+// Récupérer les commentaires d'un forum
+export const getCommentsByForum = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params; // ID du forum
+
+        // Récupérer les commentaires associés au forum
+        const commentaires = await Commentaire.findAll({
+            where: { idF: id },
+            include: [{ model: Utilisateur, as: 'Utilisateur' }], 
         });
-        if (discussion) {
-            res.status(200).json(discussion);
-        } else {
-            res.status(404).json({ error: "Discussion non trouvée" });
-        }
+        res.status(200).json(commentaires);
     } catch (error) {
-        res.status(500).json({ error: "Erreur lors de la récupération de la discussion" });
-    }
-};
-
-// Ajouter un commentaire
-export const addCommentaire = async (req: Request, res: Response): Promise<T> => {
-    try {
-        const { contenuC, idF, idU } = req.body;
-        if (!contenuC || !idF || !idU) {
-            return res.status(400).json({ error: "Tous les champs sont requis" });
-        }
-        const newCommentaire = await Commentaire.create({ contenuC, idF, idU });
-        res.status(201).json(newCommentaire);
-    } catch (error) {
-        res.status(500).json({ error: "Erreur lors de l'ajout du commentaire" });
-    }
-};
-
-// Gérer les votes d'une discussion
-export const voteDiscussion = async (req: Request, res: Response): Promise<T> => {
-    try {
-        const { id, voteType } = req.params;
-        const discussion = await Forum.findByPk(id);
-
-        if (!discussion) {
-            return res.status(404).json({ error: "Discussion non trouvée" });
-        }
-
-        if (voteType === 'up') {
-            discussion.votesPositifs += 1;
-        } else if (voteType === 'down') {
-            discussion.votesNegatifs += 1;
-        }
-
-        await discussion.save();
-        res.status(200).json(discussion);
-    } catch (error) {
-        res.status(500).json({ error: "Erreur lors du vote" });
+        console.error('Erreur lors de la récupération des commentaires :', error);
+        res.status(500).json({ error: "Erreur lors de la récupération des commentaires." });
     }
 };

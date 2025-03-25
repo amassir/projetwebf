@@ -1,38 +1,40 @@
 <div class="container mt-4">
-    <h2 class="text-center text-primary">Forum</h2>
-  
-    <!-- Formulaire pour ajouter une discussion -->
-    <div class="card p-4 shadow-sm mb-4">
-      <h4>Créer une discussion</h4>
-      <form>
-        <div class="form-group mb-3">
-          <label>Titre</label>
-          <input type="text" class="form-control" [(ngModel)]="titreF" placeholder="Titre de la discussion" name="titreF">
-        </div>
-        <div class="form-group mb-3">
-          <label>Contenu</label>
-          <textarea class="form-control" [(ngModel)]="contenuF" placeholder="Contenu de la discussion" name="contenuF"></textarea>
-        </div>
-        <button type="button" class="btn btn-primary" (click)="addDiscussion()">Publier</button>
-      </form>
-    </div>
-  
-    <!-- Liste des discussions -->
-    <div *ngFor="let discussion of discussions" class="card p-3 mb-3">
-      <h5>{{ discussion.titreF }}</h5>
-      <p>{{ discussion.contenuF }}</p>
-      <small>Par {{ discussion.Utilisateur?.prenomU }} {{ discussion.Utilisateur?.nomU }}</small>
-      <div>
-        <button (click)="vote(discussion.idF, 'up')" class="btn btn-success">👍 {{ discussion.votesPositifs }}</button>
-        <button (click)="vote(discussion.idF, 'down')" class="btn btn-danger">👎 {{ discussion.votesNegatifs }}</button>
+  <h2 class="text-center">Gestion des Forums</h2>
+
+  <!-- Formulaire pour créer un forum -->
+  <div class="card p-4 shadow-sm mb-4">
+    <h4>Créer un nouveau sujet</h4>
+    <form>
+      <div class="form-group mb-3">
+        <label class="fw-bold">Titre</label>
+        <input type="text" class="form-control" placeholder="Titre" [(ngModel)]="newForum.titreF" [ngModelOptions]="{standalone: true}">
       </div>
-      <div>
-        <h6>Commentaires</h6>
-        <div *ngFor="let commentaire of discussion.Commentaires">
-          <p>{{ commentaire.contenuC }} - <small>{{ commentaire.Utilisateur?.prenomU }}</small></p>
-        </div>
-        <textarea [(ngModel)]="newComment" placeholder="Ajouter un commentaire"></textarea>
-        <button (click)="addComment(discussion.idF)">Commenter</button>
+      <div class="form-group mb-3">
+        <label class="fw-bold">Contenu</label>
+        <textarea class="form-control" placeholder="Contenu" [(ngModel)]="newForum.contenuF" [ngModelOptions]="{standalone: true}"></textarea>
       </div>
+      <button type="button" class="btn btn-primary w-100" (click)="save('forum')">Enregistrer</button>
+    </form>
+  </div>
+
+  <!-- Liste des forums -->
+  <div *ngFor="let forum of forums" class="card p-3 mb-3">
+    <h5>{{ forum.titreF }}</h5>
+    <p>{{ forum.contenuF }}</p>
+    <p class="text-muted">Posté par : {{ forum.Utilisateur?.prenomU }} {{ forum.Utilisateur?.nomU }}</p>
+
+    <!-- Bouton pour afficher les commentaires -->
+    <button class="btn btn-link" (click)="getComments(forum.idF)">Afficher les commentaires</button>
+
+    <!-- Liste des commentaires -->
+    <div *ngIf="comments[forum.idF]">
+      <div *ngFor="let comment of comments[forum.idF]" class="mt-2">
+        <p><strong>{{ comment.Utilisateur?.prenomU }}</strong> : {{ comment.contenuC }}</p>
+      </div>
+
+      <!-- Formulaire pour ajouter un commentaire -->
+      <textarea class="form-control mb-2" placeholder="Ajouter un commentaire" [(ngModel)]="newComment[forum.idF]"></textarea>
+      <button class="btn btn-primary btn-sm" (click)="save('comment', forum.idF)">Commenter</button>
     </div>
   </div>
+</div>

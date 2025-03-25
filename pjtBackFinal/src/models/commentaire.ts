@@ -4,14 +4,14 @@ import Forum from './forum';
 import Utilisateur from './utilisateur';
 
 export class Commentaire extends Model {
-    public idC!: number;
+    public idO!: number;
     public contenuC!: string;
     public idF!: number;
     public idU!: number;
 }
 
 Commentaire.init({
-    idC: {
+    idO: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -42,7 +42,7 @@ Commentaire.init({
     sequelize,
     modelName: 'Commentaire',
     tableName: 'Commentaire',
-    timestamps: true,
+    timestamps: false,
 });
 
 Commentaire.belongsTo(Forum, { foreignKey: 'idF', as: 'Forum' });

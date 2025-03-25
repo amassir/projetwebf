@@ -1,12 +1,14 @@
 import { Router } from 'express';
-import { getDiscussions, addDiscussion, getDiscussionById, addCommentaire, voteDiscussion } from '../controllers/forumController';
+import { createForum, getForums, createComment, getCommentsByForum } from '../controllers/forumController';
 
 const router = Router();
 
-router.get('/forum', getDiscussions);
-router.post('/forum', addDiscussion);
-router.get('/forum/:id', getDiscussionById);
-router.post('/forum/commentaire', addCommentaire);
-router.post('/forum/:id/vote/:voteType', voteDiscussion);
+// Routes pour les forums
+router.get('/forums', getForums);
+router.post('/forums', createForum);
+
+// Routes pour les commentaires
+router.post('/forums/:id/comments', createComment);
+router.get('/forums/:id/comments', getCommentsByForum);
 
 export default router;

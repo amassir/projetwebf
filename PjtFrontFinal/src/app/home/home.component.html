@@ -2,6 +2,7 @@
     <header class="home-header">
       <h1>Bienvenue sur techLoop</h1>
       <p>Découvrez nos fonctionnalités et services</p>
+      <p *ngIf="currentUser">Connecté en tant que : <strong>{{ currentUser.prenomU }} {{ currentUser.nomU }}</strong></p>
     </header>
     <section class="home-content">
       <div class="feature">

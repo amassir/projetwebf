@@ -46,7 +46,7 @@ Forum.init({
     sequelize,
     modelName: 'Forum',
     tableName: 'Forum',
-    timestamps: true, 
+    timestamps: false, 
 });
 Forum.belongsTo(Utilisateur, { foreignKey: 'idU', as: 'Utilisateur' });
 
