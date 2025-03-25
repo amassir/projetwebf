@@ -1,5 +1,5 @@
 CREATE TABLE Personnel (
-    idP INT,
+    idP INT AUTO_INCREMENT,
     nomP VARCHAR(255),
     prenomP VARCHAR(255),
     dateEmbaucheP DATE,

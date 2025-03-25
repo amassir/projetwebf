@@ -1,5 +1,5 @@
 CREATE TABLE Missions (
-    idM INT,
+    idM INT AUTO_INCREMENT,
     nomM VARCHAR(255),
     descriptionM VARCHAR(255),
     dateDebutM DATE,

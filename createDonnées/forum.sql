@@ -2,7 +2,7 @@ CREATE TABLE Forum (
     idF INT AUTO_INCREMENT,
     titreF VARCHAR(255),
     contenuF TEXT,
-    votesPostifs INT,
+    votesPositifs INT,
     votesNegatifs INT,
     idU INT,
     CONSTRAINT pk_idF PRIMARY KEY (idF),
