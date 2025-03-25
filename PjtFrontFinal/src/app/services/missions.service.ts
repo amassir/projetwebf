@@ -57,6 +57,12 @@ export class MissionsService {
     return this.http.post<any>(`${this.apiUrl}/${personnelData.idM}/personnels`, personnelData);
   }
 
+  // Mettre à jour le statut d'une mission
+  updateMissionStatut(idM: number): Observable<Missions> {
+    return this.http.put<Missions>(`${this.apiUrl}/${idM}`, {});
+  }
+
+
   // Récupérer les recommandations de personnel
   getRecommendedPersonnel(missionId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${missionId}/recommendations`);

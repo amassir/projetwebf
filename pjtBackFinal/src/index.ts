@@ -8,6 +8,8 @@ import caracteriserRoutes from './routes/caracteriserRoute';
 import forumRoutes from './routes/forumRoute';
 import AuthRoutes from './routes/authRoute';
 import cors from 'cors';
+import Missions from './models/missions';
+import { updateMissionStatusAutomatically } from './controllers/missionsController';
 
 // Initialisation de l'application express
 const app = express();
@@ -19,6 +21,20 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+
+
+// Vérification des statuts toutes les 10 secondes
+setInterval(async () => {
+    console.log('Vérification des statuts des missions...');
+    const missions = await Missions.findAll();
+
+
+    for (const mission of missions) {
+        await updateMissionStatusAutomatically(mission);
+    }
+}, 2000);
+
 
 // Middleware pour parser les requêtes JSON
 app.use(express.json());
