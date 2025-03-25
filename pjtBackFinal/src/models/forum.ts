@@ -2,6 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from '../bd/bd';
 import Utilisateur from './utilisateur'; 
 
+// Classe de la table Forum avec Sequelize
 export class Forum extends Model {
     public idF!: number;
     public titreF!: string;
@@ -11,6 +12,7 @@ export class Forum extends Model {
     public idU!: number; 
 }
 
+// Initialisation du modèle Forum
 Forum.init({
     idF: {
         type: DataTypes.INTEGER,
@@ -48,6 +50,8 @@ Forum.init({
     tableName: 'Forum',
     timestamps: false, 
 });
+
+// Association avec les utilisateurs
 Forum.belongsTo(Utilisateur, { foreignKey: 'idU', as: 'Utilisateur' });
 
 export default Forum;

@@ -3,7 +3,7 @@ import sequelize from '../bd/bd';
 import {Competences} from "./competences";
 import {Missions} from "./missions";
 
-
+// Classe de la table Caracteriser avec Sequelize
 export class Caracteriser extends Model {
     public idM!: number;
     public idC!: string;
@@ -11,6 +11,7 @@ export class Caracteriser extends Model {
     Competence: any;
 }
 
+// Initialisation du modèle Caracteriser
 Caracteriser.init({
         idM: {
             type: DataTypes.INTEGER,
@@ -42,6 +43,7 @@ Caracteriser.init({
     }
 );
 
+// Association avec les compétences et les missions
 Caracteriser.belongsTo(Missions, {foreignKey: 'idM'});
 Caracteriser.belongsTo(Competences, {foreignKey: 'idC'})
 

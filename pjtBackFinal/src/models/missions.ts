@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../bd/bd';
 
+// Classe de la table Missions avec Sequelize
 export class Missions extends Model {
     public idM!: number;
     public nomM!: string;
@@ -11,6 +12,7 @@ export class Missions extends Model {
     public anomalieM!: string;
 }
 
+// Initialisation du modèle Missions
 Missions.init({
         idM: {
             type: DataTypes.INTEGER,

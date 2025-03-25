@@ -3,6 +3,7 @@ import sequelize from "../bd/bd";
 import {Competences} from "./competences";
 import {Personnel} from "./personnel";
 
+// Classe de la table Disposer avec Sequelize
 export class Disposer extends Model {
     public idP!: number;
     public idC!: string;
@@ -11,6 +12,7 @@ export class Disposer extends Model {
     Personnel: any;
 }
 
+// Initialisation du modèle Disposer
 Disposer.init({
         idP: {
             type: DataTypes.INTEGER,
@@ -42,6 +44,7 @@ Disposer.init({
     }
 );
 
+// Association avec les compétences et les personnels
 Disposer.belongsTo(Personnel, {foreignKey: 'idP'});
 Disposer.belongsTo(Competences, {foreignKey: 'idC'})
 

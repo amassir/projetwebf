@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../bd/bd';
 
+// Classe de la table Utilisateur avec Sequelize
 export class Utilisateur extends Model {
     public idU!: number;
     public prenomU!: string;
@@ -9,6 +10,7 @@ export class Utilisateur extends Model {
     public mdpU!: string;
 }
 
+// Initialisation du modèle Utilisateur
 Utilisateur.init({
     idU: {
         type: DataTypes.INTEGER,
@@ -39,5 +41,4 @@ Utilisateur.init({
     timestamps: false,
 });
 
- 
 export default Utilisateur;

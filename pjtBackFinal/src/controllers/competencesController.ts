@@ -51,6 +51,7 @@ export const getCompetencesByPersonnel = async (req: Request, res: Response) => 
     }
 };
 
+// Récupération des compétences d'une mission avec son identifiant
 export const getCompetencesByMission = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -65,7 +66,7 @@ export const getCompetencesByMission = async (req: Request, res: Response) => {
             nomCen: record.Competence.nomCen,
             statutC: record.statutC === 'non satisfait' || record.statutC === 'satisfait' 
                       ? record.statutC 
-                      : 'non satisfait' // Valeur par défaut si incorrecte
+                      : 'non satisfait' 
         }));
 
         res.status(200).json(competences);
@@ -74,9 +75,6 @@ export const getCompetencesByMission = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Erreur lors de la récupération des données des compétences" });
     }
 };
-
-
-
 
 // Ajout d'une nouvelle compétence
 export const addCompetence = async (req: Request, res: Response) => {
@@ -106,7 +104,4 @@ export const deleteCompetence = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({ error: "Erreur lors de la suppression d'une compétence" });
     }
-
-
-
 };

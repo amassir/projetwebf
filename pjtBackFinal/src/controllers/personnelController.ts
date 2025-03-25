@@ -174,10 +174,11 @@ export const deletePersonnel = async (req: Request, res: Response) => {
     }
 };
 
+// Ajout d'une compétence à un personnel
 export const addCompetenceToPersonnel = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const { id } = req.params; // ID du personnel
-        const { idC, aptitude } = req.body; // ID de la compétence et son niveau
+        const { id } = req.params; 
+        const { idC, aptitude } = req.body; 
 
         // S'assurer que idC est bien une chaîne de caractères
         const idCStr = String(idC);
@@ -208,13 +209,13 @@ export const addCompetenceToPersonnel = async (req: Request, res: Response, next
 
         // Vérifier que aptitude est une valeur valide
         const validAptitudes = ["novice", "confirmé"];
-        const aptitudeValide = validAptitudes.includes(aptitude) ? aptitude : "novice"; // Par défaut, "novice"
+        const aptitudeValide = validAptitudes.includes(aptitude) ? aptitude : "novice"; 
 
         // Ajouter la compétence au personnel
         const newDisposer = await Disposer.create({
             idP: id,
             idC: idCStr,
-            aptitude: aptitudeValide // Assurer une valeur correcte
+            aptitude: aptitudeValide 
         });
 
         res.status(201).json({ message: "Compétence ajoutée avec succès au personnel", data: newDisposer });
@@ -225,7 +226,7 @@ export const addCompetenceToPersonnel = async (req: Request, res: Response, next
     }
 };
 
-
+// Suppression d'une compétence d'un personnel
 export const removeCompetenceFromPersonnel = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id, idC } = req.params;

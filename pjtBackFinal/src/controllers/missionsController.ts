@@ -7,7 +7,7 @@ import Personnel from '../models/personnel';
 import Competences from '../models/competences';
 import { Op } from 'sequelize';
 
-// ✅ Récupérer toutes les missions
+// Récupéreration de toutes les missions
 export const getMissions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const missions = await Missions.findAll();
@@ -17,6 +17,7 @@ export const getMissions = async (req: Request, res: Response, next: NextFunctio
     }
 };
 
+// Récupération des compétences associées à une mission
 export const getPersonnelByMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
@@ -55,7 +56,7 @@ export const getPersonnelByMission = async (req: Request, res: Response, next: N
 };
 
 
-// ✅ Récupérer une mission par ID
+// Récupération d'une mission par son identifiant
 export const getMissionById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
@@ -70,7 +71,7 @@ export const getMissionById = async (req: Request, res: Response, next: NextFunc
     }
 };
 
-// ✅ Ajouter une mission
+// Ajouter une mission
 export const addMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { nomM, descriptionM, dateDebutM, dateFinM, anomalieM } = req.body;
@@ -89,7 +90,7 @@ export const addMission = async (req: Request, res: Response, next: NextFunction
     }
 };
 
-
+// Mise à jour d'une mission
 export const updateMission = async (req: Request, res: Response): Promise<void> => {
     try {
         const { id } = req.params;
@@ -118,9 +119,7 @@ export const updateMission = async (req: Request, res: Response): Promise<void> 
     }
 };
 
-
-
-// ✅ Supprimer une mission
+// Suppression d'une mission avec son identifiant
 export const deleteMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
@@ -136,11 +135,11 @@ export const deleteMission = async (req: Request, res: Response, next: NextFunct
     }
 };
 
-// ✅ Ajouter une compétence à une mission
+// Ajout d'une compétence à une mission
 export const addCompetenceToMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const { id } = req.params; // ID de la mission
-        const { idC, statutC } = req.body; // ID de la compétence et son statut
+        const { id } = req.params; 
+        const { idC, statutC } = req.body; 
 
         // S'assurer que idC est bien une chaîne de caractères
         const idCStr = String(idC);
@@ -171,7 +170,7 @@ export const addCompetenceToMission = async (req: Request, res: Response, next: 
 
         // Vérifier que statutC est une valeur valide
         const validStatuts = ["satisfait", "non satisfait"];
-        const statutValide = validStatuts.includes(statutC) ? statutC : "non satisfait"; // Par défaut, "non satisfait"
+        const statutValide = validStatuts.includes(statutC) ? statutC : "non satisfait"; 
 
         // Ajouter la compétence à la mission
         const newCaracteriser = await Caracteriser.create({
@@ -188,8 +187,7 @@ export const addCompetenceToMission = async (req: Request, res: Response, next: 
     }
 };
 
-
-
+// Suppression d'une compétence d'une mission
 export const removeCompetenceFromMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id, idC } = req.params;
@@ -214,6 +212,7 @@ export const removeCompetenceFromMission = async (req: Request, res: Response, n
     }
 };
 
+// Suppression d'un personnel d'une mission
 export const removePersonnelFromMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id, idP } = req.params;
@@ -238,6 +237,7 @@ export const removePersonnelFromMission = async (req: Request, res: Response, ne
     }
 };
 
+// Recommander du personnel pour une mission
 export const recommendPersonnelForMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
@@ -290,8 +290,8 @@ export const recommendPersonnelForMission = async (req: Request, res: Response, 
             idP: qp.Personnel.idP,
             nom: qp.Personnel.nomP,
             prenom: qp.Personnel.prenomP,
-            competence: qp.Competence.nomCfr, // ou qp.Competence.nomCen
-            aptitude: qp.aptitude // "confirmé" ou "novice"
+            competence: qp.Competence.nomCfr, 
+            aptitude: qp.aptitude 
         }));
 
         res.status(200).json(recommendedPersonnel);
@@ -301,6 +301,7 @@ export const recommendPersonnelForMission = async (req: Request, res: Response, 
     }
 };
 
+// Ajoute d'un personnel à une mission
 export const addPersonnelToMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { idM, idP } = req.body;
@@ -333,7 +334,7 @@ export const addPersonnelToMission = async (req: Request, res: Response, next: N
     }
 };
 
-
+// Assigner du personnel à une mission
 export const assignPersonnelToMission = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { idM, idP } = req.body;

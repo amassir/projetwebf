@@ -3,7 +3,7 @@ import Utilisateur from '../models/utilisateur';
 
 type T = any
 
-// Inscription
+// Inscription d'un utilisateur
 export const register = async (req: Request, res: Response): Promise<T> => {
     try {
         const { nomU, prenomU, emailU, mdpU } = req.body;
@@ -26,7 +26,7 @@ export const register = async (req: Request, res: Response): Promise<T> => {
     }
 };
 
-// Connexion
+// Connexion d'un utilisateurs
 export const login = async (req: Request, res: Response): Promise<T> => {
     try {
         const { emailU, mdpU } = req.body;

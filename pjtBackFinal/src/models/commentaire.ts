@@ -3,6 +3,7 @@ import sequelize from '../bd/bd';
 import Forum from './forum';
 import Utilisateur from './utilisateur';
 
+// Classe de la table Commentaire avec Sequelize
 export class Commentaire extends Model {
     public idO!: number;
     public contenuC!: string;
@@ -10,6 +11,7 @@ export class Commentaire extends Model {
     public idU!: number;
 }
 
+// Initialisation du modèle Commentaire
 Commentaire.init({
     idO: {
         type: DataTypes.INTEGER,
@@ -45,6 +47,7 @@ Commentaire.init({
     timestamps: false,
 });
 
+// Association avec les forums et les utilisateurs
 Commentaire.belongsTo(Forum, { foreignKey: 'idF', as: 'Forum' });
 Commentaire.belongsTo(Utilisateur, { foreignKey: 'idU', as: 'Utilisateur' });
 

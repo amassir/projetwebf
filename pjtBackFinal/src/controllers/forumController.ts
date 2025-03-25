@@ -62,7 +62,7 @@ export const createComment = async (req: Request, res: Response): Promise<T> => 
 // Récupérer les commentaires d'un forum
 export const getCommentsByForum = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params; // ID du forum
+        const { id } = req.params; 
 
         // Récupérer les commentaires associés au forum
         const commentaires = await Commentaire.findAll({

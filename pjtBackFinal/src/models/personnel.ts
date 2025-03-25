@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../bd/bd';
 
+// Classe de la table Personnel avec Sequelize
 export class Personnel extends Model {
     public idP!: number;
     public nomP!: string;
@@ -10,6 +11,7 @@ export class Personnel extends Model {
     public statutP!: string;
 }
 
+// Initialisation du modèle Personnel
 Personnel.init({
         idP: {
             type: DataTypes.INTEGER,

@@ -3,6 +3,7 @@ import sequelize from "../bd/bd";
 import {Missions} from "./missions";
 import {Personnel} from "./personnel";
 
+// Classe de la table Executer avec Sequelize
 export class Executer extends Model {
     public idM!: number;
     public idP!: number;
@@ -11,6 +12,7 @@ export class Executer extends Model {
     Mission: any;
 }
 
+// Initialisation du modèle Executer
 Executer.init({
         idM: {
             type: DataTypes.INTEGER,
@@ -33,7 +35,7 @@ Executer.init({
         dateDebutE: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: DataTypes.NOW, // Ajoute la date actuelle par défaut
+            defaultValue: DataTypes.NOW, 
         },},
     {
         sequelize,
@@ -44,6 +46,7 @@ Executer.init({
 
 );
 
+// Association avec les missions et les personnels
 Executer.belongsTo(Missions, { foreignKey: 'idM', as: 'Mission' });
 Executer.belongsTo(Personnel, { foreignKey: 'idP', as: 'Personnel' });
 
