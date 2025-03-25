@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Utilisateur from '../models/utilisateur';
 
+// Type générique pour les fonctions asynchrones
 type T = any
 
 // Inscription d'un utilisateur
@@ -26,7 +27,7 @@ export const register = async (req: Request, res: Response): Promise<T> => {
     }
 };
 
-// Connexion d'un utilisateurs
+// Connexion d'un utilisateur
 export const login = async (req: Request, res: Response): Promise<T> => {
     try {
         const { emailU, mdpU } = req.body;

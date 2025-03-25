@@ -3,6 +3,7 @@ import Forum from '../models/forum';
 import Commentaire from '../models/commentaire';
 import Utilisateur from '../models/utilisateur';
 
+// Type générique pour les fonctions asynchrones
 type T = any;
 
 // Créer un forum
