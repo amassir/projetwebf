@@ -168,6 +168,9 @@ export const addCompetenceToMission = async (req: Request, res: Response, next: 
             statutC: statutValide
         });
 
+        // Mettre à jour le statut de la mission si nécessaire
+        await updateMissionStatusAutomatically(mission);
+
         res.status(201).json({ message: "Compétence ajoutée avec succès à la mission", data: newCaracteriser });
     } catch (error) {
         console.error("Erreur lors de l'ajout de la compétence à la mission :", error);
@@ -220,6 +223,9 @@ export const addPersonnelToMission = async (req: Request, res: Response, next: N
         }
 
         await Executer.create({ idM, idP, dateDebutE: new Date() });
+        // Mettre à jour le statut de la mission si nécessaire
+        await updateMissionStatusAutomatically(mission);
+
 
         res.status(200).json({ message: "Personnel ajouté à la mission avec succès !" });
     } catch (error) {

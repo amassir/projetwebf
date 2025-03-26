@@ -74,7 +74,7 @@ export class MissionsComponent implements OnInit {
         error: (err) => {
           console.error("❌ Erreur lors de la mise à jour :", err);
           alert("Erreur lors de la mise à jour.");
-        }
+        } 
       });
     } else {
       // Mode ajout

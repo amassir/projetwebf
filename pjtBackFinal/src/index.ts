@@ -22,20 +22,6 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-
-
-// Vérification des statuts toutes les 10 secondes
-setInterval(async () => {
-    console.log('Vérification des statuts des missions...');
-    const missions = await Missions.findAll();
-
-
-    for (const mission of missions) {
-        await updateMissionStatusAutomatically(mission);
-    }
-}, 2000);
-
-
 // Middleware pour parser les requêtes JSON
 app.use(express.json());
 
@@ -53,6 +39,17 @@ app.use('/api', disposerRoutes);
 app.use('/api', caracteriserRoutes);
 app.use('/api', forumRoutes);
 app.use('/api', AuthRoutes);
+
+// Vérification des statuts toutes les 10 secondes
+setInterval(async () => {
+    console.log('Vérification des statuts des missions...');
+    const missions = await Missions.findAll();
+
+
+    for (const mission of missions) {
+        await updateMissionStatusAutomatically(mission);
+    }
+}, 2000);
 
 // Démarrage du serveur
 app.listen(port, () => {

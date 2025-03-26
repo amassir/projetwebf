@@ -17,7 +17,7 @@ router.get('/missions/:id', getMissionById);
 router.get('/missions/:id/personnels', getPersonnelByMission);
 
 // Route pour mettre à jour le statut d'une mission
-router.put('/missions/:id', updateMissionStatut);
+router.put('/missions/:id/statut', updateMissionStatut);
 
 // Route pour recommander du personnel pour une mission
 router.get('/missions/:id/recommendations', recommendPersonnelForMission);
