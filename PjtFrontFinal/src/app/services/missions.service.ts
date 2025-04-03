@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 // Export de l'interface Missions
 export interface Missions {
@@ -18,7 +19,8 @@ export interface Missions {
 })
 export class MissionsService {
   // Définition de l'URL pour les requêtes HTTP
-  private apiUrl = 'http://localhost:3000/api/missions'; 
+  private apiUrl = `${environment.url}/api/missions`;
+
 
   constructor(private http: HttpClient) { }
 

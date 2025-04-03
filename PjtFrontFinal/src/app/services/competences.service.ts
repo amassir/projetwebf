@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 // Export de l'interface Competences
 export interface Competences {
@@ -15,9 +16,9 @@ export interface Competences {
 })
 export class CompetencesService {
   // Définition des URL pour les requêtes HTTP
-  private apiUrlPersonnel = 'http://localhost:3000/api/personnel'; 
-  private apiUrlMissions = 'http://localhost:3000/api/missions'; 
-  private apiUrlCompetences = 'http://localhost:3000/api/competences'; 
+  private apiUrlPersonnel = `${environment.url}/api/personnel`; 
+  private apiUrlMissions = `${environment.url}/api/missions`; 
+  private apiUrlCompetences = `${environment.url}/api/competences`; 
 
   constructor(private http: HttpClient) {}
 

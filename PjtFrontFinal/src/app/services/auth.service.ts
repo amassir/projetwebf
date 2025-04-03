@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 // Export de l'interface Utilisateur
 export interface Utilisateur {
@@ -16,8 +17,8 @@ export interface Utilisateur {
 })
 export class AuthService {
   // Définition des URL pour les requêtes HTTP
-  private apiUrlRegister = 'http://localhost:3000/api/auth';
-  private apiUrlLogin = 'http://localhost:3000/api/login';
+  private apiUrlRegister = `${environment.url}/api/auth`;
+  private apiUrlLogin = `${environment.url}/api/login`;
 
   constructor(private http: HttpClient) {}
   
