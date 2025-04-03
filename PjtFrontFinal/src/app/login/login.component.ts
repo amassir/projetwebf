@@ -24,7 +24,10 @@ export class LoginComponent {
       next: (response) => {
         sessionStorage.setItem('user', JSON.stringify(response.user));
         alert('Connexion réussie !');
-        this.router.navigate(['/home']);
+        
+        // Redirection vers la page précédente (si disponible), sinon vers la page d'accueil
+        const redirectUrl = this.router.url.includes('login') ? '/home' : this.router.url;
+        this.router.navigate([redirectUrl]);
       },
       error: (err) => console.error('Erreur lors de la connexion.',err)
     });

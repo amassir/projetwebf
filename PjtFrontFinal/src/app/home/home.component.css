@@ -1,26 +1,31 @@
+/* Applique une couleur de fond uniforme à toute la page */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #e3f2fd; /* Fond bleu clair, que tu peux ajuster à la couleur de ta division */
+  font-family: Arial, sans-serif; /* Choisis une police si nécessaire */
+}
+
+/* Assure-toi que la couleur de fond de la division principale est bien uniforme */
 .home-container {
   text-align: center;
   padding: 20px;
   background-color: #e3f2fd; /* Fond bleu clair */
+  min-height: 100vh; /* Cela s'assure que la section prend au moins toute la hauteur de la fenêtre */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
+/* Applique une couleur uniforme à l'en-tête */
 .home-header {
   background-color: #0d47a1; /* Fond bleu foncé */
-  color: #ffffff; /* Texte blanc */
+  color: #ffffff;
   padding: 20px;
-  border-bottom: 2px solid #0b3954; /* Bordure bleu plus foncé */
+  border-bottom: 2px solid #0b3954;
 }
 
-.home-header h1 {
-  margin: 0;
-  font-size: 2.5em;
-}
-
-.home-header p {
-  margin: 10px 0 0;
-  font-size: 1.2em;
-}
-
+/* Assure-toi que la section des fonctionnalités occupe tout l'espace */
 .home-content {
   display: flex;
   flex-wrap: wrap;
@@ -30,25 +35,34 @@
 
 .feature {
   background-color: #ffffff;
-  border: 1px solid #b0bec5; /* Bordure gris clair */
+  border: 1px solid #b0bec5;
   border-radius: 10px;
   padding: 20px;
-  width: 45%; /* Pour que les éléments prennent 45% de largeur */
+  width: 45%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   transition: transform 0.2s;
 }
 
 .feature:hover {
-  transform: scale(1.05); /* Effet de zoom au survol */
+  transform: scale(1.05);
 }
 
 .feature h2 {
   margin-top: 0;
   font-size: 1.5em;
-  color: #0d47a1; /* Bleu foncé pour les titres */
+  color: #0d47a1;
 }
 
 .feature p {
-  color: #546e7a; /* Gris foncé pour les paragraphes */
+  color: #546e7a;
+}
+
+.additional-info ul {
+  padding-left: 20px;
+  list-style-position: inside;
+}
+
+.additional-info li {
+  margin-bottom: 10px;
 }

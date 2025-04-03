@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PersonnelService} from '../services/personnel.service';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { CompetencesModalPersonnelComponent } from '../competences-modal-personnel/competences-modal-personnel.component';
@@ -22,7 +23,7 @@ export class PersonnelComponent implements OnInit {
   statutP = "";
   idPersonnel = "";
 
-  constructor(private personnelService: PersonnelService, private modalService: BsModalService) {}
+  constructor(private personnelService: PersonnelService, private modalService: BsModalService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.getPersonnel();
@@ -112,5 +113,13 @@ export class PersonnelComponent implements OnInit {
       }
     };
     this.bsModalRef = this.modalService.show(CompetencesModalPersonnelComponent, modalOptions);
+  }
+
+  modifierPersonnel() {
+    alert("Cette action est désactivée en mode démo.");
+  }
+  
+  supprimerPersonnel() {
+    alert("Cette action est désactivée en mode démo.");
   }
 }

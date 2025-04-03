@@ -135,4 +135,12 @@ export class MissionsComponent implements OnInit {
     };
     this.bsModalRef = this.modalService.show(PersonnelModalComponent, modalOptions);
   }
+
+  modifierMission() {
+    alert("Cette action est désactivée en mode démo.");
+  }
+  
+  supprimerMission() {
+    alert("Cette action est désactivée en mode démo.");
+  }
 }

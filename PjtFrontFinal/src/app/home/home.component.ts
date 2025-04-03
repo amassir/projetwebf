@@ -15,9 +15,15 @@ export class HomeComponent implements OnInit {
 
   // Charger l'utilisateur connecté depuis sessionStorage
   loadCurrentUser(): void {
-    const user = sessionStorage.getItem('user');
-    if (user) {
-      this.currentUser = JSON.parse(user);
+    if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+      // Le code qui accède à sessionStorage
+      const currentUser = sessionStorage.getItem('user');
+      if (currentUser) {
+        this.currentUser = JSON.parse(currentUser);
+      }
+    } else {
+      // Gérer l'absence de sessionStorage (par exemple, afficher un message ou rediriger)
+      console.log('sessionStorage non disponible');
     }
   }
 }

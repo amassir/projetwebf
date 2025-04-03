@@ -1,34 +1,36 @@
 <div class="home-container">
-    <header class="home-header">
-      <h1>Bienvenue sur techLoop</h1>
-      <p>Découvrez nos fonctionnalités et services</p>
-      <p *ngIf="currentUser">Connecté en tant que : <strong>{{ currentUser.prenomU }} {{ currentUser.nomU }}</strong></p>
-    </header>
-    <section class="home-content">
-      <div class="feature">
-        <h2>Gestion des Compétences</h2>
-        <p>Visualisez et modifiez les compétences de chaque personnel.</p>
-      </div>
-      <div class="feature">
-        <h2>Gestion des Missions</h2>
-        <p>Saisissez de nouvelles missions et suivez leur cycle de vie.</p>
-      </div>
-      <div class="feature">
-        <h2>Recommandation de Personnels</h2>
-        <p>Obtenez des recommandations pour les missions en préparation.</p>
-      </div>
-      <div class="feature">
-        <h2>Enregistrement d'un Personnel</h2>
-        <p>Ajoutez de nouveaux personnels et mettez à jour leurs compétences.</p>
-      </div>
-    </section>
-    <section class="additional-info">
-      <h2>Informations Supplémentaires</h2>
-      <p>Notre application vous permet également de :</p>
-      <ul>
-        <li>Programmer des missions avec une date de début et une durée définie.</li>
-        <li>Mettre à jour les compétences des personnels lorsque nécessaire.</li>
-        <li>Gérer les anomalies des missions de manière structurée.</li>
-      </ul>
-    </section>
-  </div>
+  <header class="home-header">
+    <h1>Bienvenue sur techLoop</h1>
+    <p>Découvrez nos fonctionnalités et services</p>
+    <p *ngIf="currentUser">Connecté en tant que : <strong>{{ currentUser.prenomU }} {{ currentUser.nomU }}</strong></p>
+  </header>
+
+  <section class="home-content">
+    <div class="feature">
+      <h2>Gestion des Compétences</h2>
+      <p>Visualisez et modifiez les compétences de chaque personnel.</p>
+    </div>
+    <div class="feature">
+      <h2>Gestion des Missions</h2>
+      <p>Saisissez de nouvelles missions et suivez leur cycle de vie.</p>
+    </div>
+    <div class="feature">
+      <h2>Recommandation de Personnels</h2>
+      <p>Obtenez des recommandations pour les missions en préparation.</p>
+    </div>
+    <div class="feature">
+      <h2>Forum pour partager les idées</h2>
+      <p>Partagez vos idées et discutez des meilleures pratiques.</p>
+    </div>
+  </section>
+  
+  <section class="additional-info">
+    <h2>Autres Fonctionnalités</h2>
+    <p>Notre application vous permet aussi de :</p>
+    <ul>
+      <li><strong>Planifier des missions</strong> avec des dates précises et une durée définie.</li>
+      <li><strong>Mettre à jour les compétences</strong> des employés en fonction de leur évolution.</li>
+      <li><strong>Vous connecter</strong> pour créer des discussions dans le forum et voir les commentaires des gens.</li>
+    </ul>
+  </section>
+</div>
